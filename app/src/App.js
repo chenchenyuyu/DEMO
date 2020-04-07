@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 
 import Vr from './pages/vr/index';
+import Lobes from './pages/vr/lobes/index';
 
 import './App.css';
 
@@ -14,6 +15,7 @@ const App = () => {
     <Router>
       <Switch>
         <Route exact path="/" component={Vr} />
+        <Route exact path="/lobes" component={Lobes} />
       </Switch>
     </Router>
   );

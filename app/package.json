@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@tim-soft/react-dat-gui": "^4.0.11",
     "less-loader": "^5.0.0",
     "obj2gltf": "^3.1.0",
     "react": "^16.13.1",
@@ -15,7 +16,8 @@
     "react-router-redux": "^4.0.8",
     "react-scripts": "3.4.1",
     "react-three-fiber": "^4.0.25",
-    "three": "^0.115.0"
+    "three": "^0.115.0",
+    "vtk.js": "^13.12.3"
   },
   "scripts": {
     "start": "react-scripts start",
