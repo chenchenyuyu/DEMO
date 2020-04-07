@@ -35,7 +35,11 @@ const Vr = () => {
         <Breadcrumb.Item href="/com">
           <span>Com demo</span>
         </Breadcrumb.Item>
+        <Breadcrumb.Item href="/volume">
+          <span>Volume demo</span>
+        </Breadcrumb.Item>
       </Breadcrumb>
+      <div>主页内容</div>
     </div>
   );
 };
