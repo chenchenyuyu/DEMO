@@ -17,7 +17,7 @@ const Secne = ({ setLoadTime }) => {
     const loadStartTime = performance.now();
     // gltfLoader loader gltf
     const gltf = new GLTFLoader().load(
-      'http://192.168.111.20:8080/demo.gltf',
+      'http://192.168.111.20:8080/sample-1.gltf',
       gltf => {
         gltf.scene.traverse(function(node) {
           if (node instanceof THREE.Mesh) {
