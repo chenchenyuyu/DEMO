@@ -1,11 +1,17 @@
 import React from 'react';
 import { Breadcrumb, Menu } from 'antd';
+import './index.less';
 
 const menu = (
   <Menu>
     <Menu.Item>
       <a target="_blank" rel="noopener noreferrer" href="/gltf">
-        fractureChest gltf vr
+        gltf vr
+      </a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="/vtp">
+        vtp vr
       </a>
     </Menu.Item>
     <Menu.Item>
@@ -21,7 +27,7 @@ const Vr = () => {
     <div style={{ textAlign: 'center', fontSize: '20px' }}>
       <Breadcrumb>
         <Breadcrumb.Item href="/">
-          <span>主页</span>
+          <span>home page</span>
         </Breadcrumb.Item>
         <Breadcrumb.Item overlay={menu}>
           <a href="/gltf">Vr demo</a>

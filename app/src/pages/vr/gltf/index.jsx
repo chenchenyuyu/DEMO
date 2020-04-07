@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
 import * as THREE from 'three';
+import React, { useEffect, useState, useRef } from 'react';
+
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Canvas, extend, useThree, useFrame } from 'react-three-fiber';
 
-import './index.css';
+import './index.less';
 
 extend({ TrackballControls });
 

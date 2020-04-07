@@ -9,17 +9,17 @@ import Gltf from './pages/vr/gltf/index';
 import Lobes from './pages/vr/lobes/index';
 import Com from './pages/com/index';
 import Vr from './pages/vr/index';
-
-import './App.css';
+import Vtp from './pages/vr/vtp/index';
 
 const App = () => {
   return (
     <Router>
       <Switch>
+        <Route exact path="/" component={Vr} />
         <Route exact path="/gltf" component={Gltf} />
+        <Route exact path="/vtp" component={Vtp} />
         <Route exact path="/lobes" component={Lobes} />
         <Route exact path="/com" component={Com} />
-        <Route exact path="/" component={Vr} />
       </Switch>
     </Router>
   );
