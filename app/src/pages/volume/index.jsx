@@ -44,7 +44,8 @@ const Scene = ({
         lut.luts = lutHelper.presetLuts();
         lut.lutsO = lutHelper.presetLutsO();
         // update related uniforms
-        lut.lut = 'red'; // red, random, gold, default
+        lut.lut = 'muscle_bone'; // red, random, gold, default
+        lut.lut0 = 'linear_full';
         vrHelper.uniforms.uTextureLUT.value = lut.texture;
         vrHelper.uniforms.uLut.value = 1;
         vrHelper.uniforms.uSteps.value = 251;
