@@ -1772,6 +1772,10 @@ JSONStream@^1.0.3:
     jsonparse "^1.2.0"
     through ">=2.2.7 <3"
 
+OpenJPEG.js@joedrago/openjpeg#master:
+  version "0.10.1"
+  resolved "https://codeload.github.com/joedrago/openjpeg/tar.gz/797aeec0c953fa826f8243a3a1924a7f0a0266fd"
+
 abab@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.3.tgz#623e2075e02eb2d3f2475e49f99c91846467907a"
@@ -1888,19 +1892,20 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-ami.js@^0.0.22:
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/ami.js/-/ami.js-0.0.22.tgz#902ca1777b89969d09226e5d74c9a7b4c9ce4cf6"
-  integrity sha1-kCyhd3uJlp0JIm5ddMmntMnOTPY=
+ami.js@^0.32.0:
+  version "0.32.0"
+  resolved "https://registry.yarnpkg.com/ami.js/-/ami.js-0.32.0.tgz#79cc331dad6fcc6e0072e032b63c9cbb7cf5c606"
+  integrity sha512-2PRXIMErYEQMwLWoPBDnmWRL6YX0VdDPFTC+qcYhKRgDU2F86ynFnds22Xi9gJCgiNDWRevjUWXsrCBtnBP+pA==
   dependencies:
-    dicom-parser "1.7.3"
-    image-JPEG2000 OHIF/image-JPEG2000#master
+    OpenJPEG.js joedrago/openjpeg#master
+    dicom-parser "1.8.1"
+    image-JPEG2000 ReflexionMed/image-JPEG2000#master
     jpeg-lossless-decoder-js "1.2.3"
     math-float32-to-binary-string "^1.0.0"
     nifti-reader-js v0.5.3
     nrrd-js "^0.2.1"
     pako "1.0.1"
-    three "0.87.0"
+    three latest
 
 ansi-colors@3.2.3:
   version "3.2.3"
@@ -3991,10 +3996,10 @@ detective@^5.2.0:
     defined "^1.0.0"
     minimist "^1.1.1"
 
-dicom-parser@1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/dicom-parser/-/dicom-parser-1.7.3.tgz#64a6af5f11c840ed9544d212c60253aa43bad26c"
-  integrity sha1-ZKavXxHIQO2VRNISxgJTqkO60mw=
+dicom-parser@1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/dicom-parser/-/dicom-parser-1.8.1.tgz#5baef740f7ae2911921f3e4109b89c936b8b3273"
+  integrity sha512-8lgmQ+p4KD9lWdDpte/goUFZW9BrNCqYM/mEpO2IZl1srHj+2kmzWNbIMnYdQH60IMreS0ECJ8BnWE0rHSvBGA==
 
 diff-sequences@^24.9.0:
   version "24.9.0"
@@ -5670,9 +5675,9 @@ ignore@^4.0.6:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
   integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
 
-"image-JPEG2000@github:ohif/image-JPEG2000#master":
+image-JPEG2000@ReflexionMed/image-JPEG2000#master:
   version "0.3.1"
-  resolved "https://codeload.github.com/ohif/image-JPEG2000/tar.gz/ed628f6ef0c505377179ce5c952cd7265c87e065"
+  resolved "https://codeload.github.com/ReflexionMed/image-JPEG2000/tar.gz/77ea3cb026de90629c2d013bda46e82a36edaeb6"
 
 image-size@~0.5.0:
   version "0.5.5"
@@ -11549,12 +11554,7 @@ text-table@0.2.0, text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three@0.87.0:
-  version "0.87.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.87.0.tgz#e38570daccafac86e7cf55718d00588a1a70b9a4"
-  integrity sha1-44Vw2syvrIbnz1VxjQBYihpwuaQ=
-
-three@^0.115.0:
+three@^0.115.0, three@latest:
   version "0.115.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.115.0.tgz#540d800c381b9da2334c024f0fbe4d23f84eb05e"
   integrity sha512-mAV2Ky3RdcbdSbR9capI+tKLvRldWYxd4151PZTT/o7+U2jh9Is3a4KmnYwzyUAhB2ZA3pXSgCd2DOY4Tj5kow==

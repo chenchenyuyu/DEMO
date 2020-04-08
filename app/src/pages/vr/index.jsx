@@ -1,5 +1,7 @@
 import React from 'react';
 import { Breadcrumb, Menu } from 'antd';
+import Gltf from './gltf/index';
+
 import './index.less';
 
 const menu = (
@@ -39,7 +41,9 @@ const Vr = () => {
           <span>Volume demo</span>
         </Breadcrumb.Item>
       </Breadcrumb>
-      <div>主页内容</div>
+      <div>
+        <Gltf />
+      </div>
     </div>
   );
 };

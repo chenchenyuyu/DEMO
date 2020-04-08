@@ -169,15 +169,27 @@ const VRLung = ({
           count = 4;
         let v_per_group = indices.length / count;
         geometry.clearGroups();
+        const lobeColor = [
+          '#42BDFF',
+          '#FC8F00',
+          '#8BFB00',
+          '#FF738F',
+          '#00FFEC'
+        ];
         // geometry.addGroup(0, vertices.length, 0);
         for (var i = 0; i < count; i++) {
           geometry.addGroup(i * v_per_group, v_per_group, i);
           let texture = createTexture('lobe' + (i + 1));
           console.log('texture', texture);
           let material = new THREE.MeshPhongMaterial({
-            color: new THREE.Color(Math.random() * 0xffffff),
+            // color: new THREE.Color(Math.random() * 0xffffff),
+            color: lobeColor[i],
             ...materialGui,
-            map: texture
+            // map: texture,
+            premultipliedAlpha: true,
+            polygonOffset: true,
+            polygonOffsetFactor: -4
+            // side: THREE.DoubleSide
           });
           // let material1 = new THREE.MeshNormalMaterial({ flatShading: false, wireframe: false});
           // if (i === 0) {
@@ -357,7 +369,7 @@ const hemisphereLightData = {
     shininess: 50,
     // specular:"#FFFFE0",
     // emissive:"#F5F5DC",
-    transparent: false,
+    transparent: true,
     opacity: 0.6,
     depthTest: true,
     depthWrite: true,
