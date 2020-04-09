@@ -1,5 +1,5 @@
 import React from 'react';
-import Range from './range/index';
+import Range from '../../components/range/index';
 
 import './index.less';
 
