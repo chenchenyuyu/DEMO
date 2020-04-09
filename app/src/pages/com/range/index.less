@@ -1,0 +1,39 @@
+.range {
+  background: rgba(49, 48, 55, 1);
+  display: inline-block;
+  width: 60px;
+  height: 300px;
+
+  &-title {
+    width: 60px;
+    height: 25px;
+    background: rgba(49, 48, 55, 1);
+    border-radius: 6px 6px 0px 0px;
+    opacity: 0.6;
+    border: 1px solid rgba(0, 0, 0, 1);
+  }
+
+  &-label {
+    color: #3f87f5;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  &-marks {
+    width: 60px;
+    height: 230px;
+    background: rgba(49, 48, 55, 1);
+    border-radius: 0px 0px 6px 6px;
+    opacity: 0.6;
+
+    .arrow {
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-right: 8px solid #3f87f5;
+      border-bottom: 6px solid transparent;
+      font-size: 0;
+      line-height: 0;
+    }
+  }
+}
