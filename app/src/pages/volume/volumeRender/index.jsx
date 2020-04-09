@@ -5,8 +5,6 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 import * as THREE from 'three';
 import * as AMI from 'ami.js';
 
-import './index.less';
-
 extend({ TrackballControls });
 
 const Scene = ({

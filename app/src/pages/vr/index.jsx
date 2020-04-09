@@ -24,6 +24,16 @@ const menu = (
   </Menu>
 );
 
+const menuVolume = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="/volumeRender">
+        volumeRender
+      </a>
+    </Menu.Item>
+  </Menu>
+);
+
 const Vr = () => {
   return (
     <div style={{ textAlign: 'center', fontSize: '20px' }}>
@@ -37,8 +47,8 @@ const Vr = () => {
         <Breadcrumb.Item href="/com">
           <span>Com demo</span>
         </Breadcrumb.Item>
-        <Breadcrumb.Item href="/volume">
-          <span>Volume demo</span>
+        <Breadcrumb.Item overlay={menuVolume}>
+          <a href="/volumeRender">Volume demo</a>
         </Breadcrumb.Item>
       </Breadcrumb>
       <div>

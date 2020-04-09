@@ -10,7 +10,7 @@ import Lobes from './pages/vr/lobes/index';
 import Com from './pages/com/index';
 import Vr from './pages/vr/index';
 import Vtp from './pages/vr/vtp/index';
-import Volume from './pages/volume/index';
+import VolumeRender from './pages/volume/volumeRender/index';
 
 const App = () => {
   return (
@@ -21,7 +21,7 @@ const App = () => {
         <Route exact path="/vtp" component={Vtp} />
         <Route exact path="/lobes" component={Lobes} />
         <Route exact path="/com" component={Com} />
-        <Route exact path="/volume" component={Volume} />
+        <Route exact path="/volumeRender" component={VolumeRender} />
       </Switch>
     </Router>
   );
