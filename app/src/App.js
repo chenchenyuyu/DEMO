@@ -11,6 +11,7 @@ import Com from './pages/com/index';
 import Vr from './pages/vr/index';
 import Vtp from './pages/vr/vtp/index';
 import VolumeRender from './pages/volume/volumeRender/index';
+import LoaderDicom from './pages/volume/loaderDicom/index';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route exact path="/lobes" component={Lobes} />
         <Route exact path="/com" component={Com} />
         <Route exact path="/volumeRender" component={VolumeRender} />
+        <Route exact path="/loaderDicom" component={LoaderDicom} />
       </Switch>
     </Router>
   );

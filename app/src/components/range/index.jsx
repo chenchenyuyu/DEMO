@@ -58,7 +58,8 @@ const Range = ({
             position: 'absolute',
             bottom: `${((value - 1) * 100) / max}%`,
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            cursor: 'pointer'
           }}
         >
           <div

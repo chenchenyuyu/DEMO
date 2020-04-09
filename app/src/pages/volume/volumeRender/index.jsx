@@ -63,7 +63,6 @@ const Scene = ({
       <trackballControls args={[camera, gl.domElement]} ref={controls} />
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
-      <mesh></mesh>
     </>
   );
 };

@@ -31,6 +31,11 @@ const menuVolume = (
         volumeRender
       </a>
     </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="/loaderDicom">
+        loaderDicom
+      </a>
+    </Menu.Item>
   </Menu>
 );
 
