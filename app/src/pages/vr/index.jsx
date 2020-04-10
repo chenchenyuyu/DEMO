@@ -17,6 +17,11 @@ const menu = (
       </a>
     </Menu.Item>
     <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="/vtk">
+        vtk vr
+      </a>
+    </Menu.Item>
+    <Menu.Item>
       <a target="_blank" rel="noopener noreferrer" href="/lobes">
         lobes vr
       </a>

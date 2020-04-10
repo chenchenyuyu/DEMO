@@ -10,6 +10,7 @@ import Lobes from './pages/vr/lobes/index';
 import Com from './pages/com/index';
 import Vr from './pages/vr/index';
 import Vtp from './pages/vr/vtp/index';
+import Vtk from './pages/vr/vtk/index';
 import VolumeRender from './pages/volume/volumeRender/index';
 import LoaderDicom from './pages/volume/loaderDicom/index';
 
@@ -20,6 +21,7 @@ const App = () => {
         <Route exact path="/" component={Vr} />
         <Route exact path="/gltf" component={Gltf} />
         <Route exact path="/vtp" component={Vtp} />
+        <Route exact path="/vtk" component={Vtk} />
         <Route exact path="/lobes" component={Lobes} />
         <Route exact path="/com" component={Com} />
         <Route exact path="/volumeRender" component={VolumeRender} />
