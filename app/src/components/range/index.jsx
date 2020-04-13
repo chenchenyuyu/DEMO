@@ -23,9 +23,11 @@ const Range = ({ title = 'MinIP', min = 1, max = 25, step = 1, onChange }) => {
       (indicatorBarHeight - (e.nativeEvent.clientY - top)) /
         indicatorBarHeight -
       calibration;
-    const slice = Math.floor(Math.max(percentage, 0) * max) + min;
-    setValue(slice);
-    if (onChange) onChange(slice);
+    const activeIndex = Math.floor(Math.max(percentage, 0) * max) + min;
+    setValue(activeIndex);
+    if (onChange) {
+      onChange(activeIndex);
+    }
   };
 
   return (
@@ -45,7 +47,7 @@ const Range = ({ title = 'MinIP', min = 1, max = 25, step = 1, onChange }) => {
               style={{
                 width: '8px',
                 height: '1px',
-                background: index < value ? '#3F87F5' : '#fff',
+                background: index <= value ? '#3F87F5' : '#fff',
                 marginBottom: '8px',
                 marginLeft: '12px'
               }}
