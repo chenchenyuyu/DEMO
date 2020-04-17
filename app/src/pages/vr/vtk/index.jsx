@@ -11,33 +11,11 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 import { VTKLoader } from 'three/examples/jsm/loaders/VTKLoader';
 import * as THREE from 'three';
 
+import { model, segModel } from './model';
+
 import './index.less';
 
 extend(TrackballControls);
-
-const model = {
-  0: 'images/1514056347-T125/04.vtk',
-  1: 'images/1514056347-T125/05.vtk',
-  2: 'images/1514056347-T125/06.vtk',
-  3: 'images/1514056347-T125/09.vtk',
-  4: 'images/1514056347-T125/10.vtk',
-  5: 'images/1514056347-T125/12.vtk',
-  6: 'images/1514056347-T125/13.vtk',
-  7: 'images/1514056347-T125/14.vtk',
-  8: 'images/1514056347-T125/15.vtk',
-  9: 'images/1514056347-T125/16.vtk',
-  10: 'images/1514056347-T125/17.vtk',
-  11: 'images/1514056347-T125/21.vtk',
-  12: 'images/1514056347-T125/22.vtk',
-  13: 'images/1514056347-T125/24.vtk',
-  14: 'images/1514056347-T125/25.vtk',
-  15: 'images/1514056347-T125/27.vtk',
-  16: 'images/1514056347-T125/28.vtk',
-  17: 'images/1514056347-T125/29.vtk',
-  18: 'images/1514056347-T125/30.vtk',
-  19: 'images/1514056347-T125/31.vtk',
-  20: 'images/1514056347-T125/40.vtk'
-};
 
 const VtkLoader = ({ url }) => {
   const vtk = useLoader(VTKLoader, url);
@@ -129,7 +107,7 @@ const Vtk = () => {
         }}
         gl={{ preserveDrawingBuffer: true }}
       >
-        <Scene model={model} />
+        <Scene model={segModel} />
       </Canvas>
     </div>
   );
