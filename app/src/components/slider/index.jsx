@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 
 import './index.less';
 
@@ -15,9 +15,16 @@ const Slider = ({ value, title = 'MinIP', min = 1, max = 20, step = 1, onChange 
     return marksArr;
   }, [min, max, step]);
 
+  useEffect(() => {
+    let elemMark = document.querySelector('.mark');
+    let elemChild = document.querySelector('.arrow');
+    let marginBottom = 8;
+    const { height } = elemMark.getBoundingClientRect();
+    elemChild.style.bottom = (height + marginBottom) * (value - 1) + 'px';
+  }, []);
+
   const mouseEventHandler = e => {
     let elemChild = document.querySelector('.arrow');
-    e.stopPropagation();
     const indicatorBarHeight = indicatorRef.current.clientHeight;
     const { top } = e.currentTarget.getBoundingClientRect();
     const calibration = 1.0 / max / 2;
@@ -26,13 +33,13 @@ const Slider = ({ value, title = 'MinIP', min = 1, max = 20, step = 1, onChange 
         indicatorBarHeight -
       calibration;
     const num = Math.floor(Math.max(percentage, 0) * max) + min;
-    elemChild.style.top = e.nativeEvent.clientY - top + 'px';
+    elemChild.style.top = Math.ceil(e.nativeEvent.clientY) - top+ 'px';
     if (onChange) onChange(num);
   };
 
   const handleOnMouseDown = (e) => {
     const indicatorBarHeight = indicatorRef.current.clientHeight;
-    let elemParent = document.querySelector('.range-marks');
+    let elemParent = document.querySelector('.slider-marks');
     let elemChild = document.querySelector('.arrow');
     e.preventDefault();
     e.stopPropagation();
@@ -41,10 +48,13 @@ const Slider = ({ value, title = 'MinIP', min = 1, max = 20, step = 1, onChange 
       const disY = e.clientY - top;
 
       const onMouseMove  = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         let t = e.clientY  - disY - top;
         let marginBottom = 8;
+        if (t === 0) { return; }
         if (t < 0) {
-          t = -marginBottom;
+          t = - marginBottom;
         } else if (t > elemParent.offsetHeight - elemChild.offsetHeight) {
           t = elemParent.offsetHeight - elemChild.offsetHeight;
         }
@@ -68,12 +78,12 @@ const Slider = ({ value, title = 'MinIP', min = 1, max = 20, step = 1, onChange 
   };
 
   return (
-    <div className="range">
-      <div className="range-title">{title}</div>
-      <div className="range-label">{max}层</div>
+    <div className="slider">
+      <div className="slider-title">{title}</div>
+      <div className="slider-label">{max}层</div>
       <div
         ref={indicatorRef}
-        className="range-marks"
+        className="slider-marks"
         style={{ position: 'relative' }}
         onMouseDown={mouseEventHandler}
       >
@@ -97,7 +107,6 @@ const Slider = ({ value, title = 'MinIP', min = 1, max = 20, step = 1, onChange 
           style={{
             width: '50px',
             position: 'absolute',
-            top: '160px',
             display: 'flex',
             alignItems: 'center',
             cursor: 'pointer'
@@ -115,7 +124,7 @@ const Slider = ({ value, title = 'MinIP', min = 1, max = 20, step = 1, onChange 
           ></div>
         </div>
       </div>
-      <div className="range-label">层数{value}</div>
+      <div className="slider-label">层数{value}</div>
     </div>
   );
 };
