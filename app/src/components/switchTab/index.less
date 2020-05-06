@@ -1,0 +1,54 @@
+.switch-tab {
+  width: 180px;
+  height: 52px;
+  line-height: 52px;
+  text-align: center;
+  background-color: #171D2E;
+  border: 1px solid #000;
+  border-radius: 6px;
+  &-content {
+    height: 22px;
+    line-height: 22px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 14px 12px;
+
+    &-btn {
+      background-color: #262E48;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: row;
+      
+      div {
+        width: 50px;
+        align-items: center;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+      }
+
+      &-active {
+        background: #0164FE;
+        border-radius: 12px;
+      }
+    }
+
+    &-arrow {
+      cursor: pointer;
+      &-icon {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-top: 2px solid #8A9EC3;
+        border-right: 2px solid #8A9EC3;
+      }
+      .u-arrow-right {
+        transform: rotate(45deg);
+      }
+      .u-arrow-down {
+        transform: rotate(135deg);
+      }
+    }
+  }
+}
