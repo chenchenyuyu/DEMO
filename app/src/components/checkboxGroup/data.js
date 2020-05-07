@@ -5,7 +5,7 @@ const CT_LUNG_LOBES = {
 
 const CT_LUNG_NODULE_LSDS = {
   subTitle: 'totalLung',
-  subMenu: ['R_super_222', 'R_middle_', 'R_infer_', 'L_super_', 'L_infer_'],
+  subMenu: ['R_super_', 'R_middle_', 'R_infer_', 'L_super_', 'L_infer_'],
   secondMenu: {
     R_super_: [ '_apical', '_poster', '_anter' ],
     R_middle_: [ '_lateral', '_medial' ], 

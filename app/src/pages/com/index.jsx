@@ -13,7 +13,9 @@ const Com = () => {
   const [ showTab0, setShowTab0 ] = useState(true);
   const [ showTab, setShowTab ] = useState(true);
   const [ activeTab, setActiveTab ] = useState(items[0]);
-  // console.log('activeTab', CT_LUNG_DATA[activeTab])
+  // 选择了肺叶还是肺段
+  // 肺叶肺段选择
+  console.log('activeTab', activeTab)
   return (
     <div className="com" style={{ color: '#fff' }}>
       <h2 style={{ textAlign: 'center', color: '#fff' }}>组件</h2>
@@ -26,6 +28,9 @@ const Com = () => {
         {showTab &&
         <CheckboxGroup onChange={(lists) => setCheckboxList(lists)} defaultCheckedList={CT_LUNG_DATA[activeTab]}/>
         }
+         {/* {showTab &&
+        <CheckboxGroup onChange={(lists) => setCheckboxList(lists)} defaultCheckedList={CT_LUNG_DATA['lsds']}/>
+        } */}
         </div>
         <Slider value={mipSize} min={1} max={20} step={1} title={'MinIP'} onChange={(value) => setMipSize(value)} />
       </div>
