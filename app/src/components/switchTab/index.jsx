@@ -4,6 +4,7 @@ import './index.less';
 
 const SwitchTab = ({ showTab, toggleArrowTab, handleClick }) => {
   const [ focusIndex, setFocusIndex ] = useState(0);
+  
   const items = ['lobes', 'lsds'];
   const setActiveIndex = (index) => {
     setFocusIndex(index);

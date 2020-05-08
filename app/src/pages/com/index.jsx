@@ -9,10 +9,11 @@ import './index.less';
 const Com = () => {
   const items = ['lobes', 'lsds'];
   const [ mipSize, setMipSize ] = useState(1);
-  const [ checkboxList, setCheckboxList ] = useState(CT_LUNG_DATA['lobes'].subMenu);
+  const [ checkboxList, setCheckboxList ] = useState(CT_LUNG_DATA['lsds'].secondMenu);
   const [ showTab0, setShowTab0 ] = useState(true);
   const [ showTab, setShowTab ] = useState(true);
   const [ activeTab, setActiveTab ] = useState(items[0]);
+  console.log('传递给外面', checkboxList)
   // 选择了肺叶还是肺段
   // 肺叶肺段选择
   console.log('activeTab', activeTab)
@@ -25,12 +26,12 @@ const Com = () => {
         </div>
         <div>
         <SwitchTab showTab={showTab} toggleArrowTab={() => setShowTab(!showTab)} handleClick={(activeTab) => setActiveTab(activeTab)}/>
-        {showTab &&
-        <CheckboxGroup onChange={(lists) => setCheckboxList(lists)} defaultCheckedList={CT_LUNG_DATA[activeTab]}/>
+        {showTab && activeTab === 'lobes' &&
+        <CheckboxGroup onChange={(lists) => setCheckboxList(lists)} defaultCheckedList={CT_LUNG_DATA['lobes']}/>
         }
-         {/* {showTab &&
-        <CheckboxGroup onChange={(lists) => setCheckboxList(lists)} defaultCheckedList={CT_LUNG_DATA['lsds']}/>
-        } */}
+         {showTab && activeTab === 'lsds' &&
+        <CheckboxGroup checkboxListProps={checkboxList} onChange={(lists) => setCheckboxList(lists)} defaultCheckedList={CT_LUNG_DATA['lsds']}/>
+        }
         </div>
         <Slider value={mipSize} min={1} max={20} step={1} title={'MinIP'} onChange={(value) => setMipSize(value)} />
       </div>
