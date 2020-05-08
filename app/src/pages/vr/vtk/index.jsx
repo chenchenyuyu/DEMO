@@ -11,7 +11,7 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 import { VTKLoader } from 'three/examples/jsm/loaders/VTKLoader';
 import * as THREE from 'three';
 
-import { model, segModel } from './model';
+import { lsdsModel, segModel } from './model';
 
 import './index.less';
 
@@ -20,7 +20,7 @@ extend(TrackballControls);
 const VtkLoader = ({ url }) => {
   const vtk = useLoader(VTKLoader, url);
   useMemo(() => {
-    vtk.computeVertexNormals();
+    vtk.computeVertexNormals(); // 光滑数据
     vtk.translate(0, 0, 0);
   }, [vtk]);
   return (
@@ -30,9 +30,9 @@ const VtkLoader = ({ url }) => {
         attach="material"
         color={new THREE.Color(Math.random() * 0xffffff)}
         attach="material"
-        transparent={false}
-        opacity={0.5}
-        // depthWrite={false}
+        transparent={true}
+        opacity={0.6}
+        depthWrite={false}
         // depthTest={false}
         // flatShading={false}
         // polygonOffsetFactor={0.75}
@@ -42,7 +42,7 @@ const VtkLoader = ({ url }) => {
   );
 };
 
-const Scene = ({ model }) => {
+const Scene = ({ model, position }) => {
   const paramRef = useRef();
   useMemo(() => {
     if (Object.values(model).length > 0) {
@@ -56,11 +56,7 @@ const Scene = ({ model }) => {
       <Controls />
       <Lights />
       <group
-        position={[
-          -191.36083055745286,
-          -195.26194966636896,
-          -159.30930405085903
-        ]}
+        position={position}
       >
         <Suspense fallback={null}>
           {paramRef.current.map(url => (
@@ -107,7 +103,16 @@ const Vtk = () => {
         }}
         gl={{ preserveDrawingBuffer: true }}
       >
-        <Scene model={segModel} />
+        <Scene model={lsdsModel} position={[
+          -150.36083055745286,
+          -120.26194966636896,
+          -148.30930405085903
+        ]}/>
+        <Scene model={segModel} position={[
+          -191.36083055745286,
+          -195.26194966636896,
+          -159.30930405085903
+        ]}/>
       </Canvas>
     </div>
   );

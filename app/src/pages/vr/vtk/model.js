@@ -1,4 +1,4 @@
-const model = {
+const lsdsModel = {
   0: 'images/1514056347-T125/04.vtk',
   1: 'images/1514056347-T125/05.vtk',
   2: 'images/1514056347-T125/06.vtk',
@@ -55,6 +55,6 @@ const segModel = {
 }
 
 export {
-  model,
+  lsdsModel,
   segModel,
 }
