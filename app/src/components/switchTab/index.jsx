@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 import './index.less';
 
+const items = ['lobes', 'lsds'];
+
 const SwitchTab = ({ showTab, toggleArrowTab, handleClick }) => {
   const [ focusIndex, setFocusIndex ] = useState(0);
   
-  const items = ['lobes', 'lsds'];
   const setActiveIndex = (index) => {
     setFocusIndex(index);
     if (handleClick) handleClick(items[index]);
