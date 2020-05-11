@@ -11,7 +11,7 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 import { VTKLoader } from 'three/examples/jsm/loaders/VTKLoader';
 import * as THREE from 'three';
 
-import { lsdsModel, segModel } from './model';
+import { lsdsModel, tracheaModel } from './model';
 
 import './index.less';
 
@@ -29,7 +29,6 @@ const VtkLoader = ({ url }) => {
       <meshPhongMaterial
         attach="material"
         color={new THREE.Color(Math.random() * 0xffffff)}
-        attach="material"
         transparent={true}
         opacity={0.6}
         depthWrite={false}
@@ -108,7 +107,7 @@ const Vtk = () => {
           -120.26194966636896,
           -148.30930405085903
         ]}/>
-        <Scene model={segModel} position={[
+        <Scene model={tracheaModel} position={[
           -191.36083055745286,
           -195.26194966636896,
           -159.30930405085903

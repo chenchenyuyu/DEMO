@@ -22,7 +22,7 @@ const lsdsModel = {
   20: 'images/1514056347-T125/40.vtk'
 };
 
-const segModel = {
+const tracheaModel = {
   0: "images/SJ0009972706_labeled/01.vtk",
   1: "images/SJ0009972706_labeled/02.vtk",
   2: "images/SJ0009972706_labeled/03.vtk",
@@ -56,5 +56,5 @@ const segModel = {
 
 export {
   lsdsModel,
-  segModel,
+  tracheaModel,
 }
