@@ -8,7 +8,7 @@ import * as AMI from 'ami.js';
 extend({ TrackballControls });
 
 const Scene = ({
-  fileUrl = 'https://cdn.rawgit.com/FNNDSC/data/master/nifti/eun_brain/eun_uchar_8.nii.gz'
+  fileUrl = 'http://192.168.111.20:8080/ami/eun_uchar_8.nii.gz'
 }) => {
   const controls = useRef();
   const { gl, camera, scene } = useThree();
