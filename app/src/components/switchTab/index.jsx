@@ -16,7 +16,7 @@ const SwitchTab = ({ showTab, toggleArrowTab, handleClick }) => {
         <div className="switch-tab-content-btn">
           {
             items.map((item, index) => (
-              <div className={focusIndex === index ? 'switch-tab-content-btn-active': ''} onClick={() => setActiveIndex(index)}>{item}</div>
+              <div key={item} className={focusIndex === index ? 'switch-tab-content-btn-active': ''} onClick={() => setActiveIndex(index)}>{item}</div>
             ))
           }
         </div>

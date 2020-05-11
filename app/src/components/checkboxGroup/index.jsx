@@ -6,13 +6,20 @@ import './index.less';
 /* eslint-disable react/prop-types */
 
 const CheckboxGroup = Checkbox.Group;
-const arr =[];
-const SecCheckboxGroup = ({ isCheckAll, defaultCheckedList, secTitle, onChange, setSecIndeterminate }) => {
+
+let lsdsMap =  {
+  R_super_: [ 'R_super_lb_apical', 'R_super_lb_poster', 'R_super_lb_anter' ],
+  R_middle_: [ 'R_middle_lb_lateral', 'R_middle_lb_medial' ],
+  R_infer_: [ 'R_infer_lb_dorsal', 'R_infer_lb_medial_basal', 'R_infer_lb_anter_basal', 'R_infer_lb_lateral_basal', 'R_infer_lb_poster_basal' ], 
+  L_super_: ['L_super_lb_apicoposter', 'L_super_lb_anter', 'L_super_lb_super_linguar', 'L_super_lb_infer_lingular'], 
+  L_infer_: ['L_infer_lb_dorsal', 'L_infer_lb_anter_medial_basal', 'L_infer_lb_lateral_basal', 'L_infer_lb_poster_basal'],
+};
+
+const SecCheckboxGroup = ({ checkboxListProp, isCheckAll, defaultCheckedList, secTitle, onSecChange, setSecIndeterminate }) => {
   const [checkedList, setCheckedList] = useState(defaultCheckedList.map((lsds) =>`${secTitle}lb${lsds}`));
   const [indeterminate, setIndeterminate] = useState(false);
   const [checkAll, setCheckAll] = useState(true);
-  // arr.push(checkedList)
-  // console.log('checkedList------->', arr)
+
   useEffect(() => {
     const arr = defaultCheckedList.map((lsds) => {
       return `${secTitle}lb${lsds}`
@@ -22,13 +29,13 @@ const SecCheckboxGroup = ({ isCheckAll, defaultCheckedList, secTitle, onChange, 
     setIndeterminate(false);
     setSecIndeterminate(false);
     setCheckAll(isCheckAll);
-    // if(onChange) onChange(checkedVal);
+    if(onSecChange) onSecChange(isCheckAll ? lsdsMap : {});
   }, [isCheckAll]);
 
-  const getCheckedListObject = (key, value) => {
-    let obj = {};
-    obj[key] = value;
-    return obj;
+  const getCheckedListObject = (obj, key, value) => {
+    const clone = Object.assign({}, obj);
+    clone[key] = value;
+    return clone;
   }
 
   const getOptions = (options, secTitle, delimiter) => {
@@ -51,8 +58,10 @@ const SecCheckboxGroup = ({ isCheckAll, defaultCheckedList, secTitle, onChange, 
     setIndeterminate(false);
     setSecIndeterminate(false);
     setCheckAll(e.target.checked);
-    if (onChange) onChange(checkedVal);
+    // if (onChange) onChange(checkedVal);
     // if(onChange) onChange(getCheckedListObject(secTitle,checkedVal));
+    if (onSecChange) onSecChange(getCheckedListObject(checkboxListProp, secTitle, checkedVal));
+
   };
 
   const handleSecChange = (checkedList, options, secTitle) => {
@@ -63,8 +72,8 @@ const SecCheckboxGroup = ({ isCheckAll, defaultCheckedList, secTitle, onChange, 
     setIndeterminate(val);
     setSecIndeterminate(val);
     setCheckAll(checkedList.length === options.length);
-    if (onChange) onChange(checkedList);
-    // if(onChange) onChange(getCheckedListObject(secTitle, checkedList));
+    // if (onChange) onChange(checkedList);
+    if(onSecChange) onSecChange(getCheckedListObject(checkboxListProp, secTitle, checkedList));
   }
 
   return (
@@ -85,20 +94,12 @@ const SecCheckboxGroup = ({ isCheckAll, defaultCheckedList, secTitle, onChange, 
   )
 };
 
-let cy =  {
-  R_super_: [ '_apical', '_poster', '_anter' ],
-  R_middle_: [ '_lateral', '_medial' ], 
-  R_infer_: [ '_dorsal', '_medial_basal', '_anter_basal', '_lateral_basal', '_poster_basal' ], 
-  L_super_: ['_apicoposter', '_anter', '_super_linguar', '_infer_lingular'], 
-  L_infer_: ['_dorsal', '_anter_medial_basal', '_lateral_basal', '_poster_basal'],
-};
-const CustomCheckboxGroup = ({ defaultCheckedList, onChange }) => {
+const CustomCheckboxGroup = ({ checkboxListProp, defaultCheckedList, onChange, onSecChange }) => {
   const { subTitle = '', subMenu = [], secondMenu = {} } = defaultCheckedList || {};
   const [checkedList, setCheckedList] = useState(subMenu);
   const [indeterminate, setIndeterminate] = useState(false);
   const [checkAll, setCheckAll] = useState(true);
-  const [allCheckedList, setAllCheckedList] = useState();
-  console.log('全选checkAll', checkAll)
+  
   // 二级checkbox
   const [secCheckedList, setSecCheckedList] = useState(null);
   const [secIndeterminate, setSecIndeterminate] = useState(false);
@@ -107,38 +108,6 @@ const CustomCheckboxGroup = ({ defaultCheckedList, onChange }) => {
     obj[key] = value;
     return obj;
   }
-  // useEffect(() => {
-  //   if (Object.values(secondMenu).length > 0){
-  //     const cy = Object.entries(secondMenu).map(([key, secondMenuArr]) => {
-  //       const arr = [];
-  //       const item = {key: secondMenuArr.map((lsds) => (`${key}lb${lsds}`))};
-  //       arr.push(item);
-  //       return arr;
-  //     });
-  //     console.log('dddd', cy)
-  //   }
-
-  // }, []);
-
-  // useEffect(() => {
-  //   if (secCheckedList) {
-  //     setIndeterminate((secCheckedList.length === 0 || secIndeterminate));
-  //   }
-  // }, [secCheckedList, secIndeterminate]);
-
-  useEffect(() =>{
-    if (Object.values(secondMenu).length > 0 && secCheckedList) {
-      // let arr2 = secondMenu;
-      const key = secCheckedList && secCheckedList.length > 0 && secCheckedList[0].split('lb')[0];
-      console.log('key',secCheckedList[0].split('lb')[0])
-       cy = getCheckedListObject(cy, key, secCheckedList);
-      console.log('----->', cy) 
-    }
-  }, [secCheckedList]);
-
-  console.log('肺段secCheckedList', secCheckedList)
-  console.log('secondMenu', secondMenu)
-  // console.log('肺叶checkedList', checkedList)
 
   const getOptions = (options) => {
     return [
@@ -162,18 +131,23 @@ const CustomCheckboxGroup = ({ defaultCheckedList, onChange }) => {
   };
 
   const onCheckAllChange = (e) => {
-    const checkedVal = e.target.checked ? subMenu : [];
-    setCheckedList(checkedVal);
     setIndeterminate(false);
     setCheckAll(e.target.checked);
-    if(onChange) onChange(checkedVal);
+    if (Object.values(secondMenu).length > 0) {
+      const checkedVal = e.target.checked ? lsdsMap : {};
+      if (onSecChange) onSecChange(checkedVal);
+    } else {
+      const checkedVal = e.target.checked ? subMenu : [];
+      setCheckedList(checkedVal);
+      if(onChange) onChange(checkedVal);
+    }
   };
   
   return (
     <div className="custom-checkbox-group" >
       <div className="site-checkbox-all-wrapper">
         <Checkbox
-          indeterminate={indeterminate}
+          indeterminate={indeterminate || (checkboxListProp && Object.values(checkboxListProp).reduce((prev, cur) => prev + cur.length, 0) < 18)}
           onChange={onCheckAllChange}
           checked={checkAll}
         >
@@ -186,7 +160,7 @@ const CustomCheckboxGroup = ({ defaultCheckedList, onChange }) => {
           {
             Object.entries(secondMenu).map(([ secTitle, secondMenuArr]) => (
               <div className="site-checkbox-all-group" key={secTitle}>
-                <SecCheckboxGroup isCheckAll={checkAll} defaultCheckedList={secondMenuArr} secTitle={secTitle} onChange={(list) => setSecCheckedList(list)} setSecIndeterminate={(bool) => setSecIndeterminate(bool)}/>
+                <SecCheckboxGroup checkboxListProp={checkboxListProp} isCheckAll={checkAll} defaultCheckedList={secondMenuArr} secTitle={secTitle} onSecChange={onSecChange} setSecIndeterminate={(bool) => setSecIndeterminate(bool)}/>
             </div>
             ))
           }
