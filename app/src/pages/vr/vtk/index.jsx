@@ -10,6 +10,8 @@ import {
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { VTKLoader } from 'three/examples/jsm/loaders/VTKLoader';
 import * as THREE from 'three';
+import { Button } from 'antd';
+import { saveAs } from 'file-saver';
 
 import { lsdsModel, tracheaModel } from './model';
 
@@ -86,9 +88,65 @@ const Lights = () => {
 };
 
 const Vtk = () => {
+  const handleScreenShot = () => {
+    const canvas = document.querySelector('.canvas-element canvas');
+    const imageUrl = canvas.toDataURL('image/jpeg', 0.3);
+    canvas.toBlob((blob) => saveAs(blob, 'screenShot' + '.png'));
+  };
+
+  const getScreenShot = () => {
+    // 0. create canvas
+    const threeElement = document.querySelector('.three-element canvas');
+    const sourceCanvas = document.createElement('canvas');
+    const sourceCtx = sourceCanvas.getContext('2d');
+    const destinationCanvas = document.createElement('canvas');
+    const destinationCtx = destinationCanvas.getContext('2d');
+    // 1. three canvas
+    const gl = threeElement.getContext('webgl', { preserveDrawingBuffer: true });
+    const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
+    const pixels  = new Uint8Array(width * height * 4);
+    gl.viewport(0, 0, width, height);
+    gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+
+    const imageData = new ImageData(new Uint8ClampedArray(pixels), width, height);
+
+    // 2. source canvas 
+    sourceCanvas.width = width;
+    sourceCanvas.height = height;
+    sourceCtx.fillStyle = '#FFFFFF';
+    sourceCtx.fillRect(0, 0, width, height);
+    sourceCtx.putImageData(getGrayscaleImage(imageData), 0, 0);
+    // 3. destination canvas
+    destinationCanvas.width = width;
+    destinationCanvas.height = height;
+    destinationCtx.fillStyle = '#FFFFFF';
+
+    destinationCtx.save();
+    destinationCtx.fillRect(0, 0, width, height);
+    destinationCtx.scale(1, -1);
+    destinationCtx.drawImage(sourceCanvas, 0, -height, width, height);
+    destinationCtx.setTransform(1, 0, 0, 1, 0, 0);
+    destinationCtx.restore();
+    // 4. output imageUrl
+    const url = destinationCanvas.toDataURL('image/png', 1);
+    // setImageUrl(url);
+  };
+
+  const getGrayscaleImage = (pixelsData) => {
+    for(let i = 0, len = pixelsData.data.length; i < len; i += 4){
+      const gray = Math.max(pixelsData.data[i], pixelsData.data[i+1], pixelsData.data[i+2]) * 1.8;
+      pixelsData.data[i] = 255 - gray;
+      pixelsData.data[i+1] = 255 - gray;
+      pixelsData.data[i+2] = 255 - gray;
+    }
+    return pixelsData;
+  };
+
   return (
     <div style={{ height: '100vh', width: '100%' }}>
+      <div style={{textAlign: 'center'}}><Button onClick={handleScreenShot}>截图啊</Button></div>
       <Canvas
+        className="canvas-element"
         orthographic={true}
         camera={{
           zoom: 1,
