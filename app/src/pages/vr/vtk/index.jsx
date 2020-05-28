@@ -156,7 +156,10 @@ const Vtk = () => {
         <Button onClick={handleScreenShot}>截图</Button>
         <Button onClick={getScreenShot}>灰度图</Button>
       </div>
-      <img src={threeUrl} alt="gray" style={{position: 'absolute', top: '0px', left: '0px', width: '570px', height: '400px'}}/>
+      <img 
+        src={threeUrl}
+        alt="gray"
+        style={{position: 'absolute', top: '0px', left: '0px', width: '570px', height: '400px', borderRadius: '60px'}}/>
       <Canvas
         className="canvas-element"
         orthographic={true}
