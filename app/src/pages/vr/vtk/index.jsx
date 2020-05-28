@@ -26,7 +26,7 @@ const VtkLoader = ({ url, getScreenShot }) => {
     vtk.translate(0, 0, 0);
   }, [vtk]);
   return (
-    <mesh geometry={vtk} onPointerMove={getScreenShot}>
+    <mesh geometry={vtk} onClick={getScreenShot}>
       {/* <bufferGeometry attach="geometry"/> */}
       <meshPhongMaterial
         attach="material"
