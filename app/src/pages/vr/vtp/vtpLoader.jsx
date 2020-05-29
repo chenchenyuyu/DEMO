@@ -45,8 +45,8 @@ const VtpLoader = ({ fileURL, onLoadTime }) => {
        
         let labels = null;
 
-      if (source.getPointData().getArrayByName('Scalars_')) {
-        labels = source.getPointData().getArrayByName('Scalars_').getData();
+      if (source.getPointData().getArrayByName('labels')) {
+        labels = source.getPointData().getArrayByName('labels').getData();
       }
         console.log('labels', labels)
         const tris = source.getPolys().getData();
@@ -63,7 +63,7 @@ const VtpLoader = ({ fileURL, onLoadTime }) => {
           ++i;
         }
 
-        const colors = new Float32Array(labels.length * 3);
+        // const colors = new Float32Array(labels.length * 3);
         console.log('tris', tris)
         setBufferObject({
           vertices,
@@ -71,7 +71,7 @@ const VtpLoader = ({ fileURL, onLoadTime }) => {
           labels,
           tris,
           indices,
-          colors
+          // colors
         });
         source.delete();
       } catch (e) {

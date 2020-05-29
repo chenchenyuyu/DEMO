@@ -26,18 +26,18 @@ const Secne = ({ fileUrl, setLoadTime }) => {
       />
       <mesh>
         <VtpLoader fileURL={fileUrl} onLoadTime={setLoadTime} />
-        <meshPhongMaterial specular={0x111111} shininess={40} />
+        <meshPhongMaterial specular={0x111111} shininess={40} color={0xffffff}/>
       </mesh>
     </>
   );
 };
 
-const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/fracture_vr_base64.vtp' }) => {
+const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/vtp_test/fracture_vr_raw_no_compress.vtp' }) => {
   const [loadTime, setLoadTime] = useState(0);
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
-      fracture_vr_base64 load time: {loadTime}ms
+      {fileUrl}  <br/>load time: {loadTime}ms
       </div>
       <Canvas
         camera={{ position: [0, 0, 400], near: 0.1, far: 1e7 }}
