@@ -13,17 +13,21 @@ const VtpLoader = ({ fileURL, onLoadTime }) => {
     let binary;
     const fetchData = async () => {
       try {
+        console.log('fileURL', fileURL)
         const resp = await fetch(fileURL);
         binary = await resp.arrayBuffer();
+        console.log('binary', binary)
         const vtpReader = vtkXMLPolyDataReader.newInstance();
         try {
           const parsed = vtpReader.parseAsArrayBuffer(binary);
+          console.log('parsed', parsed)
           if (!parsed) {
             throw Error('parse error');
           }
         } catch (e) {
           // setLoading(false);
           // setError('invalid');
+          console.log('e', e)
           return;
         }
 
@@ -31,20 +35,25 @@ const VtpLoader = ({ fileURL, onLoadTime }) => {
         // debug(`creating geometry...`);
 
         const vertices = source.getPoints().getData();
-        const normals = source
-          .getPointData()
-          .getNormals()
-          .getData();
-        const labels = source
-          .getPointData()
-          .getArrayByName('Labels')
-          .getData();
+        console.log('vertices', vertices)
+        let normals = null;
 
+        if (source.getPointData().getNormals()) {
+          normals = source.getPointData().getNormals().getData();
+        }
+        console.log('normals', normals)
+       
+        let labels = null;
+
+      if (source.getPointData().getArrayByName('Scalars_')) {
+        labels = source.getPointData().getArrayByName('Scalars_').getData();
+      }
+        console.log('labels', labels)
         const tris = source.getPolys().getData();
         const indices = new Uint32Array(
           source.getPolys().getNumberOfCells() * 3
         );
-
+          console.log('indices', indices)
         let i = 0,
           j = 0;
         while (j < indices.length) {
@@ -55,6 +64,7 @@ const VtpLoader = ({ fileURL, onLoadTime }) => {
         }
 
         const colors = new Float32Array(labels.length * 3);
+        console.log('tris', tris)
         setBufferObject({
           vertices,
           normals,
@@ -81,7 +91,13 @@ const VtpLoader = ({ fileURL, onLoadTime }) => {
           'position',
           new THREE.BufferAttribute(vertices, 3)
         );
-        geometry.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
+        // geometry.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
+        if (normals) {
+          geometry.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
+          geometry.attributes.normal.needsUpdate = true;
+        } else {
+          geometry.computeVertexNormals();
+        }
         geometry.setIndex(new THREE.BufferAttribute(indices, 1));
         geometry.attributes.position.needsUpdate = true;
         geometry.attributes.normal.needsUpdate = true;

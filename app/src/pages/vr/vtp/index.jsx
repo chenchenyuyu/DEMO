@@ -32,12 +32,12 @@ const Secne = ({ fileUrl, setLoadTime }) => {
   );
 };
 
-const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/sample-1.vtp' }) => {
+const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/fracture_vr_base64.vtp' }) => {
   const [loadTime, setLoadTime] = useState(0);
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
-        vtp load time: {loadTime}ms
+      fracture_vr_base64 load time: {loadTime}ms
       </div>
       <Canvas
         camera={{ position: [0, 0, 400], near: 0.1, far: 1e7 }}
