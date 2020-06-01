@@ -37,7 +37,7 @@ const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/vtp_test/fracture_vr_raw_no
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
-      {fileUrl}  <br/>load time: {loadTime}ms
+      {fileUrl}  <br/> <span style={{color: 'red'}}>load time: {loadTime}ms</span>
       </div>
       <Canvas
         camera={{ position: [0, 0, 400], near: 0.1, far: 1e7 }}
