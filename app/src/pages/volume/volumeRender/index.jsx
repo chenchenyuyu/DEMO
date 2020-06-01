@@ -4,12 +4,17 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 
 import * as THREE from 'three';
 import * as AMI from 'ami.js';
+import DatGui, {
+  DatSelect
+} from '@tim-soft/react-dat-gui';
 
 extend({ TrackballControls });
 
 const Scene = ({
-  fileUrl = 'http://192.168.111.20:8080/ami/eun_uchar_8.nii.gz'
+  fileUrl = 'http://192.168.111.20:8080/ami/eun_uchar_8.nii.gz',
+  guiData,
 }) => {
+  const [ stackData, setStackData ] = useState(null);
   const controls = useRef();
   const { gl, camera, scene } = useThree();
   useFrame(state => controls.current.update());
@@ -29,6 +34,7 @@ const Scene = ({
         // loader = null;
         // get first stack from series
         const stack = series.stack[0];
+        setStackData(stack);
         console.log('AMI', AMI);
         const VolumeHelper = AMI.VolumeRenderingHelperFactory(THREE);
         const vrHelper = new VolumeHelper(stack);
@@ -44,6 +50,7 @@ const Scene = ({
         // update related uniforms
         lut.lut = 'muscle_bone'; // red, random, gold, default
         lut.lut0 = 'linear_full';
+
         vrHelper.uniforms.uTextureLUT.value = lut.texture;
         vrHelper.uniforms.uLut.value = 1;
         vrHelper.uniforms.uSteps.value = 251;
@@ -58,6 +65,21 @@ const Scene = ({
       });
     })();
   }, []);
+
+  useEffect(() => {
+    // UPDATE LUT
+    const lutHelper = AMI.lutHelperFactory(THREE);
+    const lut = new lutHelper('r3d');
+    
+    lut.luts = lutHelper.presetLuts();
+    lut.lutsO = lutHelper.presetLutsO();
+    lut.lutsAvailable();
+
+    // update related uniforms
+    lut.lut = guiData.lutSelect; // red, random, gold, default
+    lut.lut0 = 'linear_full';
+}, [guiData]);
+
   return (
     <>
       <trackballControls args={[camera, gl.domElement]} ref={controls} />
@@ -66,13 +88,38 @@ const Scene = ({
     </>
   );
 };
-
+const initGuiData= {
+  lutSelect: 'muscle_bone'
+}
 const Volume = () => {
+  const [ guiData, setGuiData ] = useState(initGuiData);
+  const handleUpdate = (newData) => {
+    setGuiData(newData);
+  };
   return (
     <div id="r3d" style={{ height: '100vh', width: '100%' }}>
       <Canvas camera={{ position: [150, 400, -350], near: 0.1, far: 1e5 }}>
-        <Scene />
+        <Scene guiData={guiData}/>
       </Canvas>
+      <DatGui
+       data={guiData}
+       onUpdate={handleUpdate}
+       style={{
+        position: 'absolute',
+        right: '0',
+        top: '0',
+        width: '300px',
+        minWidth: '300px',
+        background: '#5a5b5a'
+      }}
+      >
+      <DatSelect
+        style={{color: '#000'}}
+        label="lut"
+        path="lutSelect"
+        options={["default", "spectrum", "hot_and_cold", "gold", "red", "green", "blue", "walking_dead","random", "muscle_bone"]}
+      />
+      </DatGui>
     </div>
   );
 };
