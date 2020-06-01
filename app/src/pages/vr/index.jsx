@@ -26,6 +26,11 @@ const menu = (
         lobes vr
       </a>
     </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="/decal">
+        decal vr
+      </a>
+    </Menu.Item>
   </Menu>
 );
 
