@@ -3,7 +3,7 @@ import * as THREE from 'three';
 
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Canvas, extend, useThree, useFrame } from 'react-three-fiber';
+import { Canvas, extend, useThree, useFrame, useUpdate } from 'react-three-fiber';
 
 extend({ TrackballControls });
 
@@ -11,6 +11,23 @@ const Scene = ({ fileUrl }) => {
   const controls = useRef();
   const { camera, scene, gl } = useThree();
   useFrame(state => controls.current.update());
+  const textureLoader = new THREE.TextureLoader();
+	// const decalDiffuse = textureLoader.load('textures/decal/decal-diffuse.png');
+  // const decalNormal = textureLoader.load('textures/decal/decal-normal.jpg');
+  
+const LineGeometry = () => {
+  const ref = useUpdate((geometry) => {
+    geometry.setFromPoints([new THREE.Vector3(), new THREE.Vector3() ]);
+  });
+  return (
+    <line>
+      <bufferGeometry attach="geometry" ref={ref}>
+        <lineBasicMaterial color="0xffffff" linewidth={1} linewidth="round"/>
+      </bufferGeometry>
+    </line>
+  );
+};
+
   useEffect(() => {
     const gltf = new GLTFLoader().load(
       // resource URL
@@ -19,21 +36,26 @@ const Scene = ({ fileUrl }) => {
       gltf => {
         gltf.scene.traverse(function(node) {
           if (node instanceof THREE.Mesh) {
-            const newMaterial = new THREE.MeshPhongMaterial({
+            node.material = new THREE.MeshPhongMaterial({
               specular: 0x111111,
-              shininess: 50
+              // map: textureLoader.load('models/decal/Map-COL.jpg'),
+              // specularMap: textureLoader.load('models/decal/Map-SPEC.jpg'),
+              // normalMap: textureLoader.load('models/decal/Infinite-Level_02_Tangent_SmoothUV.jpg'),
+              shininess: 25
             });
             node.castShadow = true;
-            node.material.side = THREE.DoubleSide;
-            node.material = newMaterial;
             node.geometry.center();
             node.geometry.computeBoundingSphere();
           }
           console.log('node', node);
         });
-        gltf.scene.scale.set(0.5, 0.5, 0.5);
-        console.log('gltf', gltf);
+        const mouseHelper = new THREE.Mesh( new THREE.BoxBufferGeometry( 1, 1, 50 ), new THREE.MeshNormalMaterial() );
+				mouseHelper.visible = true;
         scene.add(gltf.scene);
+				scene.add(mouseHelper);
+        console.log('mouseHelper', mouseHelper)
+        gltf.scene.scale.set(10, 10, 10);
+        console.log('gltf', gltf);
       },
       // called when the resource is loaded
       xhr => {
@@ -48,13 +70,9 @@ const Scene = ({ fileUrl }) => {
   return(
     <>
     <trackballControls args={[camera, gl.domElement]} ref={controls} />
-    <ambientLight color="0xffffff" intensity={0.1} />
-    <hemisphereLight
-      groundColor="0x080820"
-      skyColor="#f0e68c"
-      intensity={0.5}
-    />
-    <directionalLight color="0xf0f0f0" intensity={0.1} />
+    <ambientLight color="0x443333" intensity={0.1} />
+    <directionalLight color="0xffddcc" intensity={1} position={[1, 0.75, 0.5]}/>
+    <directionalLight color="0xccccff" intensity={1} position={[- 1, 0.75, - 0.5]}/>
   </>
   );
 };
@@ -71,7 +89,10 @@ const Decal = () => {
         <div style={{ textAlign: 'center', fontSize: '24px', color: '#fff' }}>
         《decal demo》
       </div>
-      <Canvas camera={{ near: 0.1, far: 1e7 }}>
+      <Canvas 
+        camera={{ position: [0, 0, 120], fov: 45, aspect: window.innerWidth / window.innerHeight, near: 0.1, far: 1e5 }} lookAt={[0,0,0]} pixelRatio={window.devicePixelRatio}
+
+        >
         <Scene fileUrl="http://192.168.111.20:8080/decal/LeePerrySmith.glb" />
       </Canvas>
     </div>
