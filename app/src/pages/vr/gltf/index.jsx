@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 // import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Canvas, extend, useThree, useFrame, useUpdate } from 'react-three-fiber';
-import { TrackballControls2 } from './TrackballControls2';
+import { TrackballControls2 } from '../jsm/controls/TrackballControls2';
 
 import './index.less';
 
