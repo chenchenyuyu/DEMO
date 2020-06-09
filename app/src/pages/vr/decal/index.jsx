@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
@@ -7,14 +7,69 @@ import { Canvas, extend, useThree, useFrame, useUpdate } from 'react-three-fiber
 
 extend({ TrackballControls });
 
+const intersection = {
+  intersects: false,
+  point: new THREE.Vector3(),
+  normal: new THREE.Vector3(),  
+};
+
+const mouse = new THREE.Vector2();
+
 const Scene = ({ fileUrl }) => {
+  const [ moved, setMoved ] = useState(false);
+
   const controls = useRef();
-  const { camera, scene, gl } = useThree();
-  useFrame(state => controls.current.update());
+  const { camera, scene, gl, invalidate } = useThree();
   const textureLoader = new THREE.TextureLoader();
+  useFrame(state => controls.current.update());
+
+  useEffect(() => {
+    // const handler = controls.current.addEventListener('change', invalidate);
+    controls.current.addEventListener('change', () => setMoved(true));
+    window.addEventListener( 'mousedown', () => setMoved(false), false );
+    window.addEventListener('mouseup', () => {
+      // checkIntersection();
+      if (!moved && intersection.intersects) shoot();
+    }, false);
+    window.addEventListener('resize', onWindowResize, false);
+    window.addEventListener('mousemove', onTouchMove);
+		window.addEventListener('touchmove', onTouchMove);
+    // return () => controls.current.removeEventListener('change', handler);
+  }, [])
+
 	// const decalDiffuse = textureLoader.load('textures/decal/decal-diffuse.png');
   // const decalNormal = textureLoader.load('textures/decal/decal-normal.jpg');
+console.log('gl', gl)
+const onWindowResize = () => {
+  // onWindowResize
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  gl.setSize(window.innerWidth, window.innerHeight);
+};
+
+const onTouchMove = (event) => {
+    let x, y;
+
+    if (event.changedTouches ) {
+      x = event.changedTouches[ 0 ].pageX;
+      y = event.changedTouches[ 0 ].pageY;
+    } else {
+      x = event.clientX;
+      y = event.clientY;
+    }
+    mouse.x = ( x / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( y / window.innerHeight ) * 2 + 1;
+    // checkIntersection();
+};
+
+const shoot = () => {
+  // 贴花材质
+  console.log('shoot');
+};
+
+const checkIntersection = () => {
   
+}
 const LineGeometry = () => {
   const ref = useUpdate((geometry) => {
     geometry.setFromPoints([new THREE.Vector3(), new THREE.Vector3() ]);
@@ -49,6 +104,7 @@ const LineGeometry = () => {
           }
           console.log('node', node);
         });
+        // mouseHelper mesh
         const mouseHelper = new THREE.Mesh( new THREE.BoxBufferGeometry( 1, 1, 50 ), new THREE.MeshNormalMaterial() );
 				mouseHelper.visible = true;
         scene.add(gltf.scene);
@@ -71,6 +127,7 @@ const LineGeometry = () => {
     <>
     <trackballControls args={[camera, gl.domElement]} ref={controls} />
     <ambientLight color="0x443333" intensity={0.1} />
+    {/* <hemisphereLight skyColor="0x443333" groundColor="0xffffff" /> */}
     <directionalLight color="0xffddcc" intensity={1} position={[1, 0.75, 0.5]}/>
     <directionalLight color="0xccccff" intensity={1} position={[- 1, 0.75, - 0.5]}/>
   </>
