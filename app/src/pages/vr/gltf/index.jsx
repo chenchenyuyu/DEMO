@@ -17,7 +17,7 @@ const Secne = ({ setLoadTime }) => {
   // useFrame(state => controls.current.update());
   const controlsRef = useUpdate((controls) => {
     console.log('THREE.MOUSE', THREE.MOUSE)
-    controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
+    controls.mouseButtons = { LEFT: 2, MIDDLE: 1, RIGHT: 0 };
     controls.reset();
   });
 

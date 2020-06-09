@@ -23,8 +23,7 @@ var TrackballControls2 = function ( object, domElement ) {
   
 	this.object = object;
 	this.domElement = domElement;
-  console.log('object', object)
-  console.log('domElement', domElement)
+
 	// API
 
 	this.enabled = true;
@@ -48,8 +47,6 @@ var TrackballControls2 = function ( object, domElement ) {
 	this.keys = [ 65 /*A*/, 83 /*S*/, 68 /*D*/ ];
 
 	this.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.ZOOM, RIGHT: MOUSE.PAN };
-  console.log('this.mouseButtons', this.mouseButtons);
-  console.log('_this.mouseButtons----->', _this.mouseButtons);
 	// internals
 
 	this.target = new Vector3();
@@ -454,21 +451,16 @@ var TrackballControls2 = function ( object, domElement ) {
 		event.stopPropagation();
 
 		if ( _state === STATE.NONE ) {
-      // console.log('event.button', event)
 			switch ( event.button ) {
-
-				case _this.mouseButtons.LEFT: // 鼠标左键
-					_state = STATE.ROTATE;
+				case _this.mouseButtons.LEFT:
+          _state = STATE.ROTATE;
 					break;
-
-				case _this.mouseButtons.MIDDLE: // 鼠标中键
-					_state = STATE.ZOOM;
+				case _this.mouseButtons.MIDDLE:
+          _state = STATE.PAN;
 					break;
-
-				case _this.mouseButtons.RIGHT: // 鼠标右键
-					_state = STATE.PAN;
+				case _this.mouseButtons.RIGHT:
+          _state = STATE.ROTATE;
 					break;
-
 				default:
 					_state = STATE.NONE; // 未知键
 
@@ -479,7 +471,6 @@ var TrackballControls2 = function ( object, domElement ) {
 		var state = ( _keyState !== STATE.NONE ) ? _keyState : _state;
 
 		if ( state === STATE.ROTATE && ! _this.noRotate ) {
-
 			_moveCurr.copy( getMouseOnCircle( event.pageX, event.pageY ) );
 			_movePrev.copy( _moveCurr );
 
