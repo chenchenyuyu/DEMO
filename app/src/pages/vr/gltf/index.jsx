@@ -1,18 +1,27 @@
 import * as THREE from 'three';
 import React, { useEffect, useState, useRef } from 'react';
 
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+// import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Canvas, extend, useThree, useFrame } from 'react-three-fiber';
+import { Canvas, extend, useThree, useFrame, useUpdate } from 'react-three-fiber';
+import { TrackballControls2 } from './TrackballControls2';
 
 import './index.less';
 
-extend({ TrackballControls });
+// extend({ TrackballControls });
+extend({ TrackballControls2 });
 
 const Secne = ({ setLoadTime }) => {
-  const controls = useRef();
+  // const controls = useRef();
   const { camera, scene, gl } = useThree();
-  useFrame(state => controls.current.update());
+  // useFrame(state => controls.current.update());
+  const controlsRef = useUpdate((controls) => {
+    console.log('THREE.MOUSE', THREE.MOUSE)
+    controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
+    controls.reset();
+  });
+
+  useFrame(() => controlsRef.current && controlsRef.current.update());
 
   useEffect(() => {
     const loadStartTime = performance.now();
@@ -45,7 +54,7 @@ const Secne = ({ setLoadTime }) => {
   }, []);
   return (
     <>
-      <trackballControls args={[camera, gl.domElement]} ref={controls} />
+      <trackballControls2 args={[camera, gl.domElement]} ref={controlsRef} />
       <ambientLight color="0xffffff" intensity={0.1} />
       <hemisphereLight
         groundColor="0x080820"
