@@ -4,18 +4,23 @@
  *  Dot_product: https://en.wikipedia.org/wiki/Dot_product
  * */
 import { useRef } from 'react';
-import * as THREE from 'three';
+import {
+	BufferGeometry,
+	Float32BufferAttribute,
+	Matrix4,
+	Vector3
+} from "three";
 import { useUpdate } from 'react-three-fiber';
 
 // decal geometry
-const decalGeometry = ({mesh, position, orientation, size}) => {
+const DecalGeometry = ({mesh, position, orientation, size}) => {
   // const geoRef = useRef();
   // buffers
   let vertices = [], normals = [], uvs = []; // TODO
   // helps
-  let plane = new THREE.Vector3();
+  let plane = new Vector3();
   // this matrix represents the transformation of the decal projector
-  const projectorMatrix = new THREE.Matrix4();
+  const projectorMatrix = new Matrix4();
   projectorMatrix.makeRotationFromEuler( orientation );
   projectorMatrix.setPosition(position);
   // get matrix inverse
@@ -31,11 +36,11 @@ const decalGeometry = ({mesh, position, orientation, size}) => {
 
   const generateBuffers = () => {
     let i;
-		let geometry = new THREE.BufferGeometry();
+		let geometry = new BufferGeometry();
 		let decalVertices = [];
 
-		let vertex = new THREE.Vector3();
-    let normal = new THREE.Vector3();
+		let vertex = new Vector3();
+    let normal = new Vector3();
     // handle different geometry types
     if (mesh.geometry.isGeometry) {
       geometry.fromGeometry(mesh.geometry);
@@ -72,7 +77,6 @@ const decalGeometry = ({mesh, position, orientation, size}) => {
 		decalVertices = clipGeometry( decalVertices, plane.set( 0, 0, 1 ) );
     decalVertices = clipGeometry( decalVertices, plane.set( 0, 0, - 1 ) );
     
-
   };
 
   const pushDecalVertex = (decalVertices, vertex, normal) => {
@@ -82,13 +86,8 @@ const decalGeometry = ({mesh, position, orientation, size}) => {
 
 		normal.transformDirection(mesh.matrixWorld);
 
-		// decalVertices.push(new DecalVertex(vertex.clone(), normal.clone()));
+		decalVertices.push(new DecalVertex(vertex.clone(), normal.clone()));
   }
-
-  const DecalVertex = ( position, normal ) => {
-    this.position = position;
-    this.normal = normal;
-  };
 
   const clipGeometry = (inVertices, plane) => {
     const outVertices = [];
@@ -233,11 +232,52 @@ const decalGeometry = ({mesh, position, orientation, size}) => {
 		return outVertices;
   };
 
+  const clip = (v0, v1, p, s) => {
+    const d0 = v0.position.dot( p ) - s;
+		const d1 = v1.position.dot( p ) - s;
+
+		const s0 = d0 / ( d0 - d1 );
+
+		const v = new DecalVertex(
+			new Vector3(
+				v0.position.x + s0 * ( v1.position.x - v0.position.x ),
+				v0.position.y + s0 * ( v1.position.y - v0.position.y ),
+				v0.position.z + s0 * ( v1.position.z - v0.position.z )
+			),
+			new Vector3(
+				v0.normal.x + s0 * ( v1.normal.x - v0.normal.x ),
+				v0.normal.y + s0 * ( v1.normal.y - v0.normal.y ),
+				v0.normal.z + s0 * ( v1.normal.z - v0.normal.z )
+			)
+		);
+
+		// need to clip more values (texture coordinates)? do it this way:
+		// intersectpoint.value = a.value + s * ( b.value - a.value );
+
+		return v;
+
+  }
+  // helper
+
+var DecalVertex = function ( position, normal ) {
+
+	this.position = position;
+	this.normal = normal;
+
+};
+
+DecalVertex.prototype.clone = function () {
+
+	return new this.constructor( this.position.clone(), this.normal.clone() );
+
+};
+
   return (
     <bufferGeometry attach="geometry" ref={geoRef}></bufferGeometry>
   );
 };
 
 export {
-  decalGeometry,
+  DecalGeometry,
+  DecalVertex,
 }
