@@ -3,7 +3,7 @@
  *  Euler_angles: https://en.wikipedia.org/wiki/Euler_angles
  *  Dot_product: https://en.wikipedia.org/wiki/Dot_product
  * */
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import {
 	BufferGeometry,
 	Float32BufferAttribute,
@@ -14,7 +14,11 @@ import { useUpdate } from 'react-three-fiber';
 
 // decal geometry
 const DecalGeometry = ({mesh, position, orientation, size}) => {
-  // const geoRef = useRef();
+  console.log('decalGeometry-mesh', mesh);
+  console.log('decalGeometry-position', position);
+  console.log('decalGeometry-orientation', orientation);
+  console.log('decalGeometry-size', size);
+
   // buffers
   let vertices = [], normals = [], uvs = []; // TODO
   // helps
@@ -23,8 +27,14 @@ const DecalGeometry = ({mesh, position, orientation, size}) => {
   const projectorMatrix = new Matrix4();
   projectorMatrix.makeRotationFromEuler( orientation );
   projectorMatrix.setPosition(position);
+
   // get matrix inverse
   const projectorMatrixInverse = new Matrix4().getInverse(projectorMatrix);
+
+  // generate buffers
+  generateBuffers();
+
+  // build geometry
   const geoRef = useUpdate((geometry) => {
     geometry.addAttribute('position', new Float32BufferAttribute(vertices,3));
     geometry.attributes.position.needsUpdate = true;
@@ -65,7 +75,7 @@ const DecalGeometry = ({mesh, position, orientation, size}) => {
       for ( i = 0; i < positionAttribute.count; i ++ ) {
 				vertex.fromBufferAttribute( positionAttribute, i );
 				normal.fromBufferAttribute( normalAttribute, i );
-				// pushDecalVertex(decalVertices, vertex, normal);
+				pushDecalVertex(decalVertices, vertex, normal);
 			}
     }
 
@@ -279,5 +289,5 @@ DecalVertex.prototype.clone = function () {
 
 export {
   DecalGeometry,
-  DecalVertex,
+  // DecalVertex,
 }
