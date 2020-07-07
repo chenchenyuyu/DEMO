@@ -5,7 +5,7 @@ import VtpLoader from './vtpLoader';
 
 extend({ TrackballControls });
 
-const Secne = ({ fileUrl, setLoadTime }) => {
+const Secne = ({ fileUrl, setLoadTime, color }) => {
   const { camera, gl } = useThree();
   const controls = useRef();
   useFrame(() => controls.current && controls.current.update());
@@ -14,19 +14,18 @@ const Secne = ({ fileUrl, setLoadTime }) => {
       <trackballControls args={[camera, gl.domElement]} ref={controls} />
       <ambientLight intensity={0.2} color={0xffffff} />
       <hemisphereLight intensity={0.4} />
-      <pointLight
-        intensity={0.8}
-        color={0xffffff}
-        position={[1000, -1000, -1000]}
-      />
-      <pointLight
-        intensity={0.5}
-        color={0xffffff}
-        position={[-1000, 1000, 1000]}
-      />
+      <pointLight intensity={0.6} color={0xffffff} position={[-1000, -1000, -1000]}/>
+      <pointLight intensity={0.3} color={0xffffff} position={[1000, 1000, 1000]}/>
       <mesh>
         <VtpLoader fileURL={fileUrl} onLoadTime={setLoadTime} />
-        <meshPhongMaterial specular={0x111111} shininess={40} color={0xffffff}/>
+        <meshPhongMaterial
+          attach="material"
+          transparent={true}
+          opacity={0.5}
+          shininess={40}
+          color={color}
+          depthWrite={false}
+          />
       </mesh>
     </>
   );
@@ -43,7 +42,8 @@ const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/vtp_test/fracture_vr_raw_no
         camera={{ position: [0, 0, 400], near: 0.1, far: 1e7 }}
         pixelRatio={window.devicePixelRatio}
       >
-        <Secne fileUrl={fileUrl} setLoadTime={setLoadTime} />
+        <Secne fileUrl={fileUrl} setLoadTime={setLoadTime} color={'#ffffff'}/>
+        <Secne fileUrl={'http://192.168.111.20:8080/lobes.vtp'} setLoadTime={setLoadTime} color={'#2765c5'}/>
       </Canvas>
     </div>
   );
