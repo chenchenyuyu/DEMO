@@ -1,3 +1,51 @@
+
+@author cyu
+
+markdown语法测试
+
+```
+const handleOnMouseDown = (e) => {
+    const indicatorBarHeight = indicatorRef.current.clientHeight;
+    let elemParent = document.querySelector('.slider-marks');
+    let elemChild = document.querySelector('.arrow');
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.target === elemChild) {
+      const { top } = elemChild.getBoundingClientRect();
+      const disY = e.clientY - top;
+
+      const onMouseMove  = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let t = e.clientY  - disY - top;
+        let marginBottom = 8;
+        if (t === 0) { return; }
+        if (t < 0) {
+          t = - marginBottom;
+        } else if (t > elemParent.offsetHeight - elemChild.offsetHeight) {
+          t = elemParent.offsetHeight - elemChild.offsetHeight;
+        }
+        const calibration = 1.0 / max / 2;
+        const percentage =
+          (indicatorBarHeight - t - marginBottom) /
+            indicatorBarHeight -
+          calibration;
+        const num = Math.floor(Math.max(percentage, 0) * max) + min;
+        elemChild.style.top = t + 'px';
+        if (onChange) onChange(num);
+      };
+      const onMouseUp = e => {
+        e.preventDefault();
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+      };
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    }
+  };
+
+```
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

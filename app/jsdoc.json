@@ -3,7 +3,10 @@
       "allowUnknownTags": false
   },
   "source": {
-      "include": "../app/src/",
+      "include":  [
+        "../app/src/",
+        "../app/README.md"
+    ],
       "includePattern": "\\.js$",
       "excludePattern": "(node_modules/|docs)"
   },
