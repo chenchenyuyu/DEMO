@@ -1,0 +1,71 @@
+{
+  "tags": {
+      "allowUnknownTags": false
+  },
+  "source": {
+      "include": "../app/src/",
+      "includePattern": "\\.js$",
+      "excludePattern": "(node_modules/|docs)"
+  },
+  "plugins": [
+      "plugins/markdown"
+  ],
+  "opts": {
+      "template": "node_modules/docdash",
+      "encoding": "utf8",
+      "destination": "docs/",
+      "recurse": true,
+      "verbose": true
+  },
+  "templates": {
+      "cleverLinks": false,
+      "monospaceLinks": false
+  },
+  "docdash": {
+    "static": true,         
+    "sort": true,          
+    "sectionOrder": [              
+    ],
+    "disqus": "",                  
+    "openGraph": {                  
+        "title": "",                
+        "type": "website",          
+        "image": "",                
+        "site_name": "",            
+        "url": ""                   
+    },
+    "meta": {                       
+        "title": "平时练手demo文档",                
+        "description": "一个JavaScript API文档生成器，借助jsdoc生成文档，借助liveserver在本地起服务查看。",          
+        "keyword": "jsdoc，docdash，liveserver，httpserver"               
+    },
+    "search": true,         
+    "collapse": true,       
+    "wrap": true,           
+    "typedefs": true,       
+    "navLevel": 0,          
+    "private": true,        
+    "removeQuotes": "trim",
+    "scripts": [],                  
+    "menu": {                      
+          "volume": {       
+            "href":"http://localhost:3001/volumeRender", 
+            "target":"_blank",
+            "class":"menu-item",
+            "id":"jsdoc_link"
+          },
+          "vr": {       
+              "href":"http://localhost:3001/vtp/", 
+              "target":"_blank",
+              "class":"menu-item",
+              "id":"docdash_link"
+          },
+          "components": {       
+              "href":"http://localhost:3001/com/", 
+              "target":"_blank",
+              "class":"menu-item",
+              "id":"case_link"
+          }
+      }
+  }
+}
