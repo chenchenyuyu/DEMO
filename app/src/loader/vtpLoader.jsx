@@ -6,7 +6,9 @@ import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader';
 
 import { useAsyncEffect } from '../hooks/effect';
 
-const VtpLoader = ({ src, onLoad = () => 0, onError = () => 0 }) => {
+const noop = () => 0;
+
+const VtpLoader = ({ src, onLoad = noop, onError = noop }) => {
   const paramsRef = useRef(null);
   const [updateId, invalidate] = useReducer((a) => a + 1, 0);
 

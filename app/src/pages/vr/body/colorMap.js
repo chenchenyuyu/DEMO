@@ -4,11 +4,9 @@ const colorMap = {
   rightLungLowerLobe: '#005FFF',
   leftLungUpperLobe: '#EA405E',
   leftLungLowerLobe: '#005FFF',
-  bone: '#FFFCF7',
-  nodule: '#FFFFFF',
-  noduleActive: '#FFD66D',
-  bodyVr: '#D3B1AA',
-  trachea: '#FFBAA3',
+  bone_vr: '#FFFCF7',
+  body_vr: '#D3B1AA',
+  airway_ve: '#FFBAA3',
   vein: '#EC4585',
   artery: '#028DEB'
 };
