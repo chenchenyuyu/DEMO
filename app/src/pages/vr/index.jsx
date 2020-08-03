@@ -31,6 +31,11 @@ const menu = (
         decal vr
       </a>
     </Menu.Item>
+    <Menu.Item>
+      <a href="_blank" rel="noopener noreferrer" href="/body">
+        body vr
+      </a>
+    </Menu.Item>
   </Menu>
 );
 

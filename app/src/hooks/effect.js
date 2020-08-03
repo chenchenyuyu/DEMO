@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+//  capture react useEffect aborted
 const useAsyncEffect = (asyncFunc, deps) => useEffect(() => {
   const callbacks = [
     () => controller.aborted = true
