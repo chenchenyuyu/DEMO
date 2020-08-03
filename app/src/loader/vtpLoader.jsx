@@ -6,7 +6,7 @@ import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader';
 
 import { useAsyncEffect } from '../hooks/effect';
 
-const VtpLoader = ({ src, onLoad, onError }) => {
+const VtpLoader = ({ src, onLoad = () => 0, onError = () => 0 }) => {
   const paramsRef = useRef(null);
   const [updateId, invalidate] = useReducer((a) => a + 1, 0);
 
@@ -16,7 +16,7 @@ const VtpLoader = ({ src, onLoad, onError }) => {
     // fetch src data
     try {
       const resp = await fetch(src);
-      binary = resp.arrayBuffer();
+      binary = await resp.arrayBuffer();
     } catch(e) {
       console.error('error', e);
       return onError(e);
@@ -64,7 +64,6 @@ const VtpLoader = ({ src, onLoad, onError }) => {
       indices[j++] = tris[++i];
       ++i;
     }
-
     paramsRef.current = { vertices, normals, labels, indices };
     // enforce update
     invalidate();
@@ -74,6 +73,7 @@ const VtpLoader = ({ src, onLoad, onError }) => {
   const ref = useUpdate((geometry) => {
     if (paramsRef.current) {
       const { vertices, normals, labels, indices } = paramsRef.current;
+
       geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
       geometry.setIndex(new THREE.BufferAttribute(indices, 1));
       geometry.index.needsUpdate = true;

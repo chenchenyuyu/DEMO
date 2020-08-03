@@ -1,18 +1,16 @@
-const url = [
+const modelUrls = [
   'rightLungUpperLobe',
   'rightLungMiddleLobe',
   'rightLungLowerLobe',
   'leftLungUpperLobe',
   'leftLungLowerLobe',
-  'bone',
-  'nodule',
-  'noduleActive',
-  'bodyVr',
-  'trachea',
+  'bone_vr',
+  'body_vr',
   'vein',
   'artery',
-]
+  'airway_ve',
+];
 
 export {
-  url
+  modelUrls,
 };
