@@ -1,8 +1,9 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { Canvas, useFrame, useThree, extend, useUpdate } from 'react-three-fiber';
 
+import Palette from '../../../components/palette/index';
 import VtpLoader from '../../../loader/vtpLoader';
 import { colorMap } from './colorMap';
 
@@ -39,7 +40,7 @@ const Lights = () => {
 };
 
 
-const Scene = () => {
+const Scene = ({ colorMap }) => {
   const lobesGroupRef = useRef(null);
   const updateCamera = useCallback(() => {
     let spheres = [];
@@ -115,15 +116,34 @@ const Controls = () => {
   );
 };
 
+const style = {
+  position: 'absolute',
+  right: '20px',
+  top: '28px',
+  zIndex: '99',
+};
+
 const BodyVr = () => {
+  const [ showPalette, setShowPalette ] = useState(false);
+  const [ colorGui, setColorGui ] = useState(colorMap);
+
   return(
     <div className="body-vr">
+      <div className="body-vr-header">
+        <Palette
+          onChange={setColorGui}
+          style={style}
+          expand={showPalette}
+          onExpand={() => setShowPalette(!showPalette)}
+          colors={colorGui}
+        />
+      </div>
       <div className="body-vr-content">
         <Canvas
           orthographic={true}
           camera={{ near: 0.1, far: 1e+4 }}
         >
-        <Scene />
+        <Scene colorMap={colorGui}/>
         </Canvas>
       </div>
     </div>
