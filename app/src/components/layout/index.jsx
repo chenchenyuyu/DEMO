@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useReducer } from 'react';
+import Button from '../button/index';
 
 import './index.less';
 
@@ -8,7 +9,7 @@ const btnStyle = {
   fontSize: '14px',
   textAlign: 'center',
   lineHeight: '20px',
-  backgroundColor: '#6961F4',
+  backgroundColor: '#3a6b71',
   cursor: 'pointer',
   color: '#fff',
   borderRadius: '6px',
@@ -17,9 +18,46 @@ const btnStyle = {
 };
 
 const Layout = () => {
+  const [ controller, setController ] = useState(true);
   return(
     <div className="layout">
-      <Button style={btnStyle}>布局按钮</Button>
+      <Button style={btnStyle} onClick={() => setController(!controller)}>布局</Button>
+      {
+        controller && 
+        <div className="layout-controller">
+          <>
+          <div className="layout-controller-item">1</div>
+          <div className="layout-controller-item">2</div>
+          <div className="layout-controller-item">3</div>
+          <div className="layout-controller-item">4</div>
+          <div className="layout-controller-item">5</div>
+          </>
+          <>
+          <div className="layout-controller-item">1</div>
+          <div className="layout-controller-item">2</div>
+          <div className="layout-controller-item">3</div>
+          <div className="layout-controller-item">4</div>
+          <div className="layout-controller-item">5</div>
+          </>
+          <>
+          <div className="layout-controller-item">1</div>
+          <div className="layout-controller-item">2</div>
+          <div className="layout-controller-item">3</div>
+          <div className="layout-controller-item">4</div>
+          <div className="layout-controller-item">5</div>
+          </>
+          <>
+          <div className="layout-controller-item">1</div>
+          <div className="layout-controller-item">2</div>
+          <div className="layout-controller-item">3</div>
+          <div className="layout-controller-item">4</div>
+          <div className="layout-controller-item">5</div>
+          </>
+        </div>
+      }
+      <div className="layout-content">
+        布局主体
+      </div>
     </div>
   );
 };
