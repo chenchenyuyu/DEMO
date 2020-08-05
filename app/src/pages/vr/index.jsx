@@ -54,6 +54,16 @@ const menuVolume = (
   </Menu>
 );
 
+const fiberVolume = (
+  <Menu>
+   <Menu.Item>
+     <a target="_blank" href="/volumetricLight">
+      volumetricLight
+     </a>
+   </Menu.Item>
+  </Menu>
+);
+
 const Vr = () => {
   return (
     <div style={{ textAlign: 'center', fontSize: '20px' }}>
@@ -72,6 +82,9 @@ const Vr = () => {
         </Breadcrumb.Item>
         <Breadcrumb.Item overlay={menuVolume}>
           <a href="/volumeRender">Volume demo</a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item overlay={fiberVolume}>
+          <a href="/volumetricLight">fiber demo</a>
         </Breadcrumb.Item>
       </Breadcrumb>
       <div>

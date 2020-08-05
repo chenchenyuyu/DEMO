@@ -16,6 +16,7 @@ import LoaderDicom from './pages/volume/loaderDicom/index';
 import Decal from './pages/vr/decal/index';
 import BodyVr from './pages/vr/body/index';
 import Layout from './components/layout/index';
+import VolumetricLight from './pages/vr/volumetricLight/index';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route exact path="/decal" component={Decal} />
         <Route exact path="/body" component={BodyVr} />
         <Route exact path="/layout" component={Layout} />
+        <Route exact path="/volumetricLight" component={VolumetricLight} />
       </Switch>
     </Router>
   );
