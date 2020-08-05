@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import './index.less';
 
+// TODO: fix hover error
 const emptyCell = {
   row: -1,
   col: -1

@@ -13,13 +13,13 @@ const Palette = ({ style, colors, expand, onExpand, onChange }) => {
         expand &&
         <div className="palette-expand">
         <DatGui
-        data={colors}
-        onUpdate={onChange}
-        style={{
-          position: 'absolute',
-          right: '0',
-          top: '0',
-        }}
+          data={colors}
+          onUpdate={onChange}
+          style={{
+            position: 'absolute',
+            right: '0',
+            top: '0',
+          }}
         >
          {
             Object.keys(colors).map((color) => (

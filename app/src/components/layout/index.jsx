@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import { AppstoreFilled } from '@ant-design/icons';
 
 import Button from '../button/index';
@@ -24,10 +24,30 @@ const initSelectedCell = {
   row: -1,
   col: -1,
 };
+
 const Layout = () => {
   const [ controller, setController ] = useState(true);
   const [ selectedCell, setSelectedCell ] = useState(initSelectedCell);
+  const [ table, setTable ] = useState([[]]);
+  
+  useEffect(() => {
+    computeTable();
+  }, [selectedCell]);
 
+  const computeTable = () => {
+    const { row, col } = selectedCell || {};
+    let table = [];
+    for(let i = 0; i <= row; i++) {
+      let newRow = [];
+      for(let j = 0; j <= col; j++) {
+        let cell = { row: i, col: j };
+        newRow.push(cell);
+      }
+      table.push(newRow);
+    }
+    setTable(table);
+  }
+  
   return(
     <div className="layout">
       <div className="layout-header">
@@ -43,11 +63,21 @@ const Layout = () => {
             setController={setController}
             selectedCell={selectedCell}
             onChange={setSelectedCell}
-            />
+          />
         }
       </div>
       <div className="layout-content">
-        布局主体
+        {
+          table.map((row, i) => (
+            <div key={i} className="layout-content-row">
+              {
+                row.map((col, j) => (
+                 <div className="layout-content-col">{i}，{j}</div>
+                ))
+              }
+            </div>
+          ))
+        }
       </div>
     </div>
   );
