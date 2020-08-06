@@ -12,17 +12,16 @@ import './index.less';
 extend({ TrackballControls });
 
 const VtpMesh = ({ url, color, updateCamera, lobe }) => {
-
   return (
     <mesh renderOrder={lobe === 'body_vr' ? 99 : 0}>
       <VtpLoader src={url} onLoad={updateCamera}/>
       <meshStandardMaterial
-      attach="material"
-      color={color}
-      transparent={true}
-      opacity={lobe === 'body_vr' ? 0.2 : 0.5}
-      depthWrite={false}
-      side={lobe === 'body_vr' ? THREE.DoubleSide : THREE.BackSide}
+        attach="material"
+        color={color}
+        transparent={true}
+        opacity={lobe === 'body_vr' ? 0.2 : 0.5}
+        depthWrite={false}
+        side={lobe === 'body_vr' ? THREE.DoubleSide : THREE.BackSide}
       />
     </mesh>
   ) 
