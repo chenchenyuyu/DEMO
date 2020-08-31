@@ -36,6 +36,9 @@ const menu = (
         body vr
       </a>
     </Menu.Item>
+    <Menu.Item>
+      <a href="_blank" href="/stl">stl vr</a>
+    </Menu.Item>
   </Menu>
 );
 
