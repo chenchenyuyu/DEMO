@@ -94,6 +94,9 @@ const Effects = () => {
 const VolumetricLight = () => {
   return(
     <div>
+      <div>
+        VolumetricLight
+      </div>
       <Canvas style={{ background: '#171720' }} shadowMap camera={{ fov: 50, position: [0, 0, 7] }}>
         <ambientLight />
         <pointLight intensity={4} />

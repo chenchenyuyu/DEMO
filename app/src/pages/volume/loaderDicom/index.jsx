@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Canvas, extend, useThree, useFrame } from 'react-three-fiber';
 import * as THREE from 'three';
-import * as AMI from 'ami.js';
+// import * as AMI from 'ami.js';
 
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 
@@ -17,20 +17,20 @@ const Scene = () => {
     v => `https://cdn.rawgit.com/FNNDSC/data/master/dicom/adi_brain/${v}`
   );
 
-  useEffect(() => {
-    (async () => {
-      // renderer
-      const threeD = document.getElementById('r3d');
-      const renderer = new THREE.WebGLRenderer({
-        antialias: true
-      });
-      renderer.setSize(threeD.offsetWidth, threeD.offsetHeight);
-      renderer.setClearColor(0x673ab7, 1);
-      renderer.setPixelRatio(window.devicePixelRatio);
-      threeD.appendChild(renderer.domElement);
-      const loader = new AMI.VolumeLoader(threeD);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     // renderer
+  //     const threeD = document.getElementById('r3d');
+  //     const renderer = new THREE.WebGLRenderer({
+  //       antialias: true
+  //     });
+  //     renderer.setSize(threeD.offsetWidth, threeD.offsetHeight);
+  //     renderer.setClearColor(0x673ab7, 1);
+  //     renderer.setPixelRatio(window.devicePixelRatio);
+  //     threeD.appendChild(renderer.domElement);
+  //     const loader = new AMI.VolumeLoader(threeD);
+  //   })();
+  // }, []);
   return (
     <>
       <trackballControls args={[camera, gl.domElement]} ref={controls} />

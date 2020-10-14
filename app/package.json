@@ -10,6 +10,7 @@
     "antd": "^4.1.1",
     "babel-plugin-import": "^1.13.0",
     "docdash": "^1.2.0",
+    "drei": "^1.5.7",
     "file-saver": "^2.0.2",
     "jsdoc": "^3.6.4",
     "less": "^3.11.1",
@@ -21,8 +22,8 @@
     "react-router-dom": "^5.1.2",
     "react-router-redux": "^4.0.8",
     "react-scripts": "3.4.1",
-    "react-three-fiber": "^4.0.25",
-    "three": "^0.115.0",
+    "react-three-fiber": "^5.0.3",
+    "three": "^0.121.1",
     "vtk.js": "^13.12.3"
   },
   "scripts": {

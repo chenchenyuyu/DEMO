@@ -64,6 +64,11 @@ const fiberVolume = (
       volumetricLight
      </a>
    </Menu.Item>
+   <Menu.Item>
+     <a href="/cube" target="_blank" rel="noopener noreferrer">
+       cube
+     </a>
+   </Menu.Item>
   </Menu>
 );
 
