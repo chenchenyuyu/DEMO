@@ -202,14 +202,11 @@ var TrackballControls2 = function ( object, domElement ) {
 
 			factor = _touchZoomDistanceStart / _touchZoomDistanceEnd;
 			_touchZoomDistanceStart = _touchZoomDistanceEnd;
-
 			if ( _this.object.isPerspectiveCamera ) {
 
 				_eye.multiplyScalar( factor );
-
 			} else if ( _this.object.isOrthographicCamera ) {
-
-				_this.object.zoom *= factor;
+				_this.object.zoom *= 1 / factor; // 缩放改为 双指由外到内缩小，双指由内到外放大
 				_this.object.updateProjectionMatrix();
 
 			} else {
