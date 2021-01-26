@@ -36,6 +36,11 @@ const menu = (
         body vr
       </a>
     </Menu.Item>
+    <Menu.Item>
+      <a href="_blank" rel="noopener noreferrer" href="/obj">
+        obj vr
+      </a>
+    </Menu.Item>
   </Menu>
 );
 

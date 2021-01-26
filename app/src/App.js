@@ -17,6 +17,7 @@ import Decal from './pages/vr/decal/index';
 import BodyVr from './pages/vr/body/index';
 import Layout from './components/layout/index';
 import VolumetricLight from './pages/vr/volumetricLight/index';
+import Obj from './pages/vr/obj/index';
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         <Route exact path="/body" component={BodyVr} />
         <Route exact path="/layout" component={Layout} />
         <Route exact path="/volumetricLight" component={VolumetricLight} />
+        <Route exact path="/obj" component={Obj}/>
       </Switch>
     </Router>
   );

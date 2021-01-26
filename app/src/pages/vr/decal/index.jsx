@@ -5,7 +5,7 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Canvas, extend, useThree, useFrame, useUpdate } from 'react-three-fiber';
 
-import { DecalGeometry } from './DecalGeometry';
+import { DecalGeometry } from './decalGeometry';
 
 extend({ TrackballControls });
 
