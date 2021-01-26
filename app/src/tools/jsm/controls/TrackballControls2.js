@@ -74,7 +74,8 @@ var TrackballControls2 = function ( object, domElement ) {
 		_touchZoomDistanceEnd = 0,
 
 		_panStart = new Vector2(),
-		_panEnd = new Vector2();
+    _panEnd = new Vector2();
+    _lastTouchEnd = 0;
 
 	// for reset
 
@@ -201,15 +202,13 @@ var TrackballControls2 = function ( object, domElement ) {
 		if ( _state === STATE.TOUCH_ZOOM_PAN ) {
 
 			factor = _touchZoomDistanceStart / _touchZoomDistanceEnd;
-			_touchZoomDistanceStart = _touchZoomDistanceEnd;
-
+      _touchZoomDistanceStart = _touchZoomDistanceEnd;
+      _lastTouchEnd = _touchZoomDistanceEnd;
 			if ( _this.object.isPerspectiveCamera ) {
 
 				_eye.multiplyScalar( factor );
-
 			} else if ( _this.object.isOrthographicCamera ) {
-
-				_this.object.zoom *= factor;
+				_this.object.zoom *= 1 / factor; // 缩放改为 双指由外到内缩小，双指由内到外放大
 				_this.object.updateProjectionMatrix();
 
 			} else {
@@ -585,7 +584,7 @@ var TrackballControls2 = function ( object, domElement ) {
 				_state = STATE.TOUCH_ZOOM_PAN;
 				var dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX;
 				var dy = event.touches[ 0 ].pageY - event.touches[ 1 ].pageY;
-				_touchZoomDistanceEnd = _touchZoomDistanceStart = Math.sqrt( dx * dx + dy * dy );
+				_touchZoomDistanceEnd = _touchZoomDistanceStart = _lastTouchEnd = Math.sqrt( dx * dx + dy * dy );
 
 				var x = ( event.touches[ 0 ].pageX + event.touches[ 1 ].pageX ) / 2;
 				var y = ( event.touches[ 0 ].pageY + event.touches[ 1 ].pageY ) / 2;
@@ -616,7 +615,10 @@ var TrackballControls2 = function ( object, domElement ) {
 			default: // 2 or more
 				var dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX;
 				var dy = event.touches[ 0 ].pageY - event.touches[ 1 ].pageY;
-				_touchZoomDistanceEnd = Math.sqrt( dx * dx + dy * dy );
+        // 加阈值防抖动（双指移动端鬼畜）
+        if(Math.abs(Math.sqrt( dx * dx + dy * dy ) - _lastTouchEnd) > 10) {
+          _touchZoomDistanceEnd = Math.sqrt( dx * dx + dy * dy );
+        }
 
 				var x = ( event.touches[ 0 ].pageX + event.touches[ 1 ].pageX ) / 2;
 				var y = ( event.touches[ 0 ].pageY + event.touches[ 1 ].pageY ) / 2;

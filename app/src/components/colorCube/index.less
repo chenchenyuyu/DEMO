@@ -1,0 +1,53 @@
+.color-cube {
+
+  cursor: pointer;
+  &-inner {
+    display: block;
+    position: absolute;
+    margin: -25px 0 0 -25px;
+    transform-style: preserve-3d;
+    transform-origin: 50px 50px;
+    transform: rotateX(-33.5deg) rotateY(45deg);
+    z-index: 10;
+    > li {
+      position: absolute;
+      display: block;
+      width: 10px;
+      height: 10px;
+      // opacity: 0.6;
+      // border: 1px solid #fff;
+    }
+    > li:before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      backface-visibility: hidden;
+    }
+    
+    .top {
+      transform: rotateX(90deg) translateZ(5px);
+    }
+
+    .bottom {
+      transform: rotateX(-90deg) translateZ(5px);
+    }
+    
+    .front {
+      transform: translateZ(5px);
+    }
+
+    .back {
+      transform: rotateX(-180deg) translateZ(5px);
+    }
+
+     .left {
+      transform: rotateY(-90deg) translateZ(5px);
+    }
+
+    .right {
+      transform: rotateY(90deg) translateZ(5px);
+    }
+  }
+}

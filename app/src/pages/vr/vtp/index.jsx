@@ -44,7 +44,7 @@ const initGuiData = {
   material: 'meshBasicMaterial',
 };
 
-const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/vtp_test/fracture_vr_raw_no_compress.vtp' }) => {
+const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/vtp_test/vein-1-main.vtp' }) => {
   const [ loadTime, setLoadTime ] = useState(0);
   const [ guiData, setGuiData ] = useState(initGuiData);
  
@@ -74,7 +74,7 @@ const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/vtp_test/fracture_vr_raw_no
         pixelRatio={window.devicePixelRatio}
       >
         {/* <Scene fileUrl={fileUrl} setLoadTime={setLoadTime} color={guiData.color}/> */}
-        <Scene fileUrl={'http://192.168.111.20:8080/lobes.vtp'} setLoadTime={setLoadTime} color={guiData.color} type={guiData.material}/>
+        <Scene fileUrl={'http://192.168.111.20:8080/vtp_test/vein-1-main.vtp'} setLoadTime={setLoadTime} color={guiData.color} type={guiData.material}/>
       </Canvas>
     </div>
   );

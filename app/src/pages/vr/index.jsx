@@ -40,6 +40,7 @@ const menu = (
       <a href="_blank" rel="noopener noreferrer" href="/obj">
         obj vr
       </a>
+      <a href="_blank" href="/stl">stl vr</a>
     </Menu.Item>
   </Menu>
 );
@@ -64,6 +65,11 @@ const fiberVolume = (
    <Menu.Item>
      <a target="_blank" href="/volumetricLight">
       volumetricLight
+     </a>
+   </Menu.Item>
+   <Menu.Item>
+     <a href="/cube" target="_blank" rel="noopener noreferrer">
+       cube
      </a>
    </Menu.Item>
   </Menu>
