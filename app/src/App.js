@@ -19,6 +19,7 @@ import Layout from './components/layout/index';
 import VolumetricLight from './pages/vr/volumetricLight/index';
 import Stl from './pages/vr/stl/index';
 import Cube from './pages/vr/cube/index';
+import Line from './pages/vr/line/index';
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
         <Route exact path="/volumetricLight" component={VolumetricLight} />
         <Route exact path="/stl" component={Stl} />
         <Route exact path="/cube" component={Cube} />
+        <Route exact path="/line" component={Line}/>
       </Switch>
     </Router>
   );
