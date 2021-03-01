@@ -23,7 +23,7 @@
     "react-router-redux": "^4.0.8",
     "react-scripts": "3.4.1",
     "react-three-fiber": "^5.0.3",
-    "three": "^0.121.1",
+    "three": "^0.125.0",
     "vtk.js": "^13.12.3"
   },
   "scripts": {
