@@ -6,7 +6,7 @@ const getVrScreenShot = (zoom) => {
   const destinationCanvas = document.createElement('canvas');
   const destinationCtx = destinationCanvas.getContext('2d');
   // 1. three canvas
-  const gl = threeElement.getContext('webgl', { preserveDrawingBuffer: true });
+  const gl = threeElement.getContext('webgl2', { preserveDrawingBuffer: true });
   const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
   const pixels  = new Uint8Array(width * height * 4);
 
