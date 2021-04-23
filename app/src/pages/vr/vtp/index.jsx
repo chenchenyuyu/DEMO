@@ -12,7 +12,7 @@ import { materialMap } from '../../../components/material/materialMap';
 
 extend({ TrackballControls });
 
-const Scene = ({ fileUrl, setLoadTime, color, type }) => {
+const Scene = ({ fileUrl, setLoadTime, setDecodeTime, color, type }) => {
   const { camera, gl } = useThree();
   const controls = useRef();
   useFrame(() => controls.current && controls.current.update());
@@ -24,7 +24,7 @@ const Scene = ({ fileUrl, setLoadTime, color, type }) => {
       <pointLight intensity={0.6} color={0xffffff} position={[-1000, -1000, -1000]}/>
       <pointLight intensity={0.3} color={0xffffff} position={[1000, 1000, 1000]}/>
       <mesh>
-        <VtpLoader fileURL={fileUrl} onLoadTime={setLoadTime} />
+        <VtpLoader fileURL={fileUrl} onLoadTime={setLoadTime} setDecodeTime={setDecodeTime}/>
         <Material
           type={type}
           attach="material"
@@ -40,18 +40,21 @@ const Scene = ({ fileUrl, setLoadTime, color, type }) => {
 };
 
 const initGuiData = {
-  color: '#133BDD',
+  color: '#A913DD',
   material: 'meshBasicMaterial',
 };
 
-const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/vtp_test/vein-1-main.vtp' }) => {
+const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/decoder/test2.vtp' }) => {
   const [ loadTime, setLoadTime ] = useState(0);
+  const [ decodeTime, setDecodeTime ] = useState(0);
   const [ guiData, setGuiData ] = useState(initGuiData);
  
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
-        {fileUrl}  <br/> <span style={{color: 'red'}}>load time: {loadTime}ms</span>
+        <p>{fileUrl}</p> 
+        <p style={{color: 'yellow'}}>decode time: {decodeTime}ms</p>
+        <p style={{color: 'red'}}>load time: {loadTime}ms</p>
       </div>
       <DatGui
         data={guiData}
@@ -74,7 +77,7 @@ const Vtp = ({ fileUrl = 'http://192.168.111.20:8080/vtp_test/vein-1-main.vtp' }
         pixelRatio={window.devicePixelRatio}
       >
         {/* <Scene fileUrl={fileUrl} setLoadTime={setLoadTime} color={guiData.color}/> */}
-        <Scene fileUrl={'http://192.168.111.20:8080/vtp_test/vein-1-main.vtp'} setLoadTime={setLoadTime} color={guiData.color} type={guiData.material}/>
+        <Scene fileUrl={'http://192.168.111.20:8080/decoder/test2.vtp'} setDecodeTime={setDecodeTime} setLoadTime={setLoadTime} color={guiData.color} type={guiData.material}/>
       </Canvas>
     </div>
   );

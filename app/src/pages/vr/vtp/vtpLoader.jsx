@@ -3,10 +3,12 @@ import * as THREE from 'three';
 import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader';
 import { BufferGeometry } from 'three';
 import { useUpdate } from 'react-three-fiber';
+import { binaryDecoder } from '../../../tools/decoder/arrayBuffer';
 
-const VtpLoader = ({ fileURL, onLoadTime }) => {
+const VtpLoader = ({ fileURL, onLoadTime, setDecodeTime }) => {
   const [bufferObject, setBufferObject] = useState({});
   const loadStartTime = useRef();
+  const decodeTime = useRef();
 
   useEffect(() => {
     loadStartTime.current = performance.now();
@@ -16,10 +18,14 @@ const VtpLoader = ({ fileURL, onLoadTime }) => {
         console.log('fileURL', fileURL)
         const resp = await fetch(fileURL);
         binary = await resp.arrayBuffer();
-        console.log('binary', binary)
+        decodeTime.current = performance.now();
+        console.time('解压总耗时');
+        const decodeBinary = binaryDecoder(binary);
+        console.timeEnd('解压总耗时');
+        setDecodeTime((performance.now() - decodeTime.current).toFixed(2))
         const vtpReader = vtkXMLPolyDataReader.newInstance();
         try {
-          const parsed = vtpReader.parseAsArrayBuffer(binary);
+          const parsed = vtpReader.parseAsArrayBuffer(decodeBinary);
           console.log('parsed', parsed)
           if (!parsed) {
             throw Error('parse error');
