@@ -149,11 +149,12 @@ const binaryDecoder = (arraybuffer) => {
   });
 
   const newArrayBuffer = new Uint8Array(dataSize);
-
+  console.time('拼接chunk时间->');
   chunkOrderSizeList.sort((a, b) => a['index'] - b['index']).forEach(({ size, start }) => {
     newArrayBuffer.set(new Uint8Array(arraybuffer, byteOffset, size), start);
     byteOffset += size;
   });
+  console.timeEnd('拼接chunk时间->');
   return newArrayBuffer.buffer;
 };
 

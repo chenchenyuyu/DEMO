@@ -18,24 +18,35 @@ const VtpLoader = ({ fileURL, onLoadTime, setDecodeTime }) => {
         console.log('fileURL', fileURL)
         const resp = await fetch(fileURL);
         binary = await resp.arrayBuffer();
-        decodeTime.current = performance.now();
-        console.time('解压总耗时');
-        const decodeBinary = binaryDecoder(binary);
-        console.timeEnd('解压总耗时');
-        setDecodeTime((performance.now() - decodeTime.current).toFixed(2))
         const vtpReader = vtkXMLPolyDataReader.newInstance();
+        let parsed;
+        let decodeBinary;
         try {
-          const parsed = vtpReader.parseAsArrayBuffer(decodeBinary);
-          console.log('parsed', parsed)
-          if (!parsed) {
-            throw Error('parse error');
-          }
+          try {
+            const startTmie = performance.now();
+            decodeBinary = binaryDecoder(binary);
+            const endTime = performance.now();
+            const time = (endTime - startTmie).toFixed(2);
+            setDecodeTime(time);
+          } catch {
+            decodeBinary = binary;
+          }      
+          parsed = vtpReader.parseAsArrayBuffer(decodeBinary);
         } catch (e) {
-          // setLoading(false);
-          // setError('invalid');
-          console.log('e', e)
-          return;
+          parsed = vtpReader.parseAsArrayBuffer(decodeBinary);
         }
+        // try {
+        //   const parsed = vtpReader.parseAsArrayBuffer(decodeBinary);
+        //   console.log('parsed', parsed)
+        //   if (!parsed) {
+        //     throw Error('parse error');
+        //   }
+        // } catch (e) {
+        //   // setLoading(false);
+        //   // setError('invalid');
+        //   console.log('e', e)
+        //   return;
+        // }
 
         const source = vtpReader.getOutputData(0);
         // debug(`creating geometry...`);
