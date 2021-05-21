@@ -41,6 +41,7 @@ const Lights = () => {
 
 
 const Scene = ({ colorMap, colorMap1 }) => {
+  const { scene, camera } = useThree();
   const lobesGroupRef = useRef(null);
   const updateCamera = useCallback(() => {
     let spheres = [];
@@ -71,6 +72,12 @@ const Scene = ({ colorMap, colorMap1 }) => {
     if (center && radius) {
       lobesGroupRef.current.position.set(-center.x, -center.y, -center.z);
     }
+  }, []);
+
+  useEffect(() => {
+    // add camera helper
+    const helper = new THREE.CameraHelper( camera );
+    scene.add( helper );
   }, []);
   return(
     <>
@@ -149,7 +156,7 @@ const BodyVr = () => {
   useEffect(() => {
     setTimeout(() => {
       getScreenShot();
-    }, 3000)
+    }, 3000);
   }, []);
 
   const downloadScreenShot = () => {
