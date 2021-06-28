@@ -19,7 +19,7 @@ import Layout from './components/layout/index';
 import VolumetricLight from './pages/vr/volumetricLight/index';
 import Stl from './pages/vr/stl/index';
 import Cube from './pages/vr/cube/index';
-import Line from './pages/vr/line/index';
+import Line from './pages/vr/LengthVrTool/index';
 
 const App = () => {
   return (
