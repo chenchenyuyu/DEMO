@@ -3,10 +3,12 @@ import * as THREE from 'three';
 import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader';
 import { BufferGeometry } from 'three';
 import { useUpdate } from 'react-three-fiber';
+import { binaryDecoder } from '../../../tools/decoder/arrayBuffer';
 
-const VtpLoader = ({ fileURL, onLoadTime }) => {
+const VtpLoader = ({ fileURL, onLoadTime, setDecodeTime }) => {
   const [bufferObject, setBufferObject] = useState({});
   const loadStartTime = useRef();
+  const decodeTime = useRef();
 
   useEffect(() => {
     loadStartTime.current = performance.now();
@@ -16,20 +18,35 @@ const VtpLoader = ({ fileURL, onLoadTime }) => {
         console.log('fileURL', fileURL)
         const resp = await fetch(fileURL);
         binary = await resp.arrayBuffer();
-        console.log('binary', binary)
         const vtpReader = vtkXMLPolyDataReader.newInstance();
+        let parsed;
+        let decodeBinary;
         try {
-          const parsed = vtpReader.parseAsArrayBuffer(binary);
-          console.log('parsed', parsed)
-          if (!parsed) {
-            throw Error('parse error');
-          }
+          try {
+            const startTmie = performance.now();
+            decodeBinary = binaryDecoder(binary);
+            const endTime = performance.now();
+            const time = (endTime - startTmie).toFixed(2);
+            setDecodeTime(time);
+          } catch {
+            decodeBinary = binary;
+          }      
+          parsed = vtpReader.parseAsArrayBuffer(decodeBinary);
         } catch (e) {
-          // setLoading(false);
-          // setError('invalid');
-          console.log('e', e)
-          return;
+          parsed = vtpReader.parseAsArrayBuffer(decodeBinary);
         }
+        // try {
+        //   const parsed = vtpReader.parseAsArrayBuffer(decodeBinary);
+        //   console.log('parsed', parsed)
+        //   if (!parsed) {
+        //     throw Error('parse error');
+        //   }
+        // } catch (e) {
+        //   // setLoading(false);
+        //   // setError('invalid');
+        //   console.log('e', e)
+        //   return;
+        // }
 
         const source = vtpReader.getOutputData(0);
         // debug(`creating geometry...`);

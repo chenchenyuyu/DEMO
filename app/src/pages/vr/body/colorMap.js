@@ -11,6 +11,15 @@ const colorMap = {
   artery: '#028DEB'
 };
 
+const colorMap1 = {
+  rightLungUpperLobe: '#D35E8D',
+  rightLungMiddleLobe: '#D35E8D',
+  rightLungLowerLobe: '#D35E8D',
+  leftLungUpperLobe: '#D35E8D',
+  leftLungLowerLobe: '#D35E8D',
+};
+
 export {
   colorMap,
+  colorMap1
 };

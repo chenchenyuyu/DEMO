@@ -32,15 +32,15 @@ const menu = (
       </a>
     </Menu.Item>
     <Menu.Item>
-      <a href="_blank" rel="noopener noreferrer" href="/body">
+      <a target="_blank" rel="noopener noreferrer" href="/body">
         body vr
       </a>
     </Menu.Item>
     <Menu.Item>
-      <a href="_blank" rel="noopener noreferrer" href="/obj">
+      <a target="_blank" rel="noopener noreferrer" href="/obj">
         obj vr
       </a>
-      <a href="_blank" href="/stl">stl vr</a>
+      <a target="_blank" href="/stl">stl vr</a>
     </Menu.Item>
   </Menu>
 );
@@ -71,6 +71,9 @@ const fiberVolume = (
      <a href="/cube" target="_blank" rel="noopener noreferrer">
        cube
      </a>
+   </Menu.Item>
+   <Menu.Item>
+     <a href="/line">line</a>
    </Menu.Item>
   </Menu>
 );

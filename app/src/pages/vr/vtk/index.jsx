@@ -31,9 +31,9 @@ const VtkLoader = ({ url, getScreenShot }) => {
       <meshPhongMaterial
         attach="material"
         color={new THREE.Color(Math.random() * 0xffffff)}
-        transparent={true}
-        opacity={0.6}
-        depthWrite={false}
+        transparent={false}
+        // opacity={0.6}
+        depthWrite={true}
         // depthTest={false}
         // flatShading={false}
         // polygonOffsetFactor={0.75}
@@ -110,7 +110,7 @@ const Vtk = () => {
     const destinationCanvas = document.createElement('canvas');
     const destinationCtx = destinationCanvas.getContext('2d');
     // 1. three canvas
-    const gl = threeElement.getContext('webgl', { preserveDrawingBuffer: true });
+    const gl = threeElement.getContext('webgl2', { preserveDrawingBuffer: true });
     const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
     const pixels  = new Uint8Array(width * height * 4);
     gl.viewport(0, 0, width, height);

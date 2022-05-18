@@ -1,27 +1,28 @@
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { Canvas, useFrame, useThree, extend, useUpdate } from 'react-three-fiber';
 
 import Palette from '../../../components/palette/index';
 import VtpLoader from '../../../loader/vtpLoader';
-import { colorMap } from './colorMap';
+import { colorMap, colorMap1 } from './colorMap';
+import { saveAs } from 'file-saver';
 
 import './index.less';
 
 extend({ TrackballControls });
 
-const VtpMesh = ({ url, color, updateCamera, lobe }) => {
+const VtpMesh = ({ url, color, updateCamera }) => {
   return (
-    <mesh renderOrder={lobe === 'body_vr' ? 99 : 0}>
+    <mesh>
       <VtpLoader src={url} onLoad={updateCamera}/>
-      <meshStandardMaterial
+      <meshPhongMaterial
         attach="material"
         color={color}
+        // blending={THREE.NormalBlending}
         transparent={true}
-        opacity={lobe === 'body_vr' ? 0.2 : 0.5}
+        opacity={0.5}
         depthWrite={false}
-        side={lobe === 'body_vr' ? THREE.DoubleSide : THREE.BackSide}
       />
     </mesh>
   ) 
@@ -39,7 +40,8 @@ const Lights = () => {
 };
 
 
-const Scene = ({ colorMap }) => {
+const Scene = ({ colorMap, colorMap1 }) => {
+  const { scene, camera } = useThree();
   const lobesGroupRef = useRef(null);
   const updateCamera = useCallback(() => {
     let spheres = [];
@@ -70,7 +72,12 @@ const Scene = ({ colorMap }) => {
     if (center && radius) {
       lobesGroupRef.current.position.set(-center.x, -center.y, -center.z);
     }
-    // console.log('lobesGroupRef.current.children', lobesGroupRef.current.children)
+  }, []);
+
+  useEffect(() => {
+    // add camera helper
+    const helper = new THREE.CameraHelper( camera );
+    scene.add( helper );
   }, []);
   return(
     <>
@@ -79,16 +86,25 @@ const Scene = ({ colorMap }) => {
       <group ref={lobesGroupRef}>
         <React.Suspense fallback={null}>
         {
-          Object.keys(colorMap).map((lobe, index) => (
+          Object.keys(colorMap1).map((lobe, index) => (
             <VtpMesh
-              lobe={lobe}
               key={`${lobe}${index}`} 
               url={`http://192.168.111.20:8080/all_vr/${lobe}.vtp`}
-              color={colorMap[lobe]}
+              color={colorMap1[lobe]}
               updateCamera={updateCamera}
             />
           ))
         }
+        {/* <mesh>
+          <VtpLoader src={`http://192.168.111.20:8080/all_vr/vein.vtp`} onLoad={updateCamera}/>
+          <meshPhongMaterial
+            attach="material"
+            color={'red'}
+            transparent={true}
+            opacity={0.5}
+            depthWrite={false}
+          />
+        </mesh> */}
         </React.Suspense>
       </group>
     </>
@@ -122,13 +138,104 @@ const style = {
   zIndex: '99',
 };
 
+const btnStyle = {
+  width: '50px',
+  height: '20px',
+  color: 'color',
+  marginLeft: '40px', 
+  background: '#005FFF',
+  borderRadius: '6px',
+  textAlign: 'center',
+};
+
 const BodyVr = () => {
-  const [ showPalette, setShowPalette ] = useState(false);
+  const [ threeUrl, setThreeUrl ] = useState(null);
+  const [ showPalette, setShowPalette ] = useState(true);
   const [ colorGui, setColorGui ] = useState(colorMap);
+
+  useEffect(() => {
+    setTimeout(() => {
+      getScreenShot();
+    }, 3000);
+  }, []);
+
+  const downloadScreenShot = () => {
+    const canvas = document.querySelector('.three-element canvas');
+    const imageUrl = canvas.toDataURL('image/jpeg', 0.3);
+    canvas.toBlob((blob) => saveAs(blob, 'screenShot222' + '.png'));
+  };
+
+  const create3DContext = (canvas, opt_attribs) => {
+    const names = ["webgl", "experimental-webgl", "webgl2"];
+    let context = null;
+    for (let ii = 0; ii < names.length; ++ii) {
+      try {
+        context = canvas.getContext(names[ii], opt_attribs);
+      } catch(e) {
+        throw new Error('This browser cannot use WebGL !!');
+      }
+      if (context) {
+        break;
+      }
+    }
+    return context;
+  };
+
+  const getScreenShot = () => {
+    // 0. create canvas
+    const threeElement = document.querySelector('.three-element canvas');
+    const sourceCanvas = document.createElement('canvas');
+    const sourceCtx = sourceCanvas.getContext('2d');
+    const destinationCanvas = document.createElement('canvas');
+    const destinationCtx = destinationCanvas.getContext('2d');
+    // 1. three canvas
+    // const gl = threeElement.getContext('webgl', { preserveDrawingBuffer: true });
+    const gl = create3DContext(threeElement);
+    console.log('gl', gl)
+    const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
+    const pixels  = new Uint8Array(width * height * 4);
+    gl.viewport(0, 0, width, height);
+    gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+
+    const imageData = new ImageData(new Uint8ClampedArray(pixels), width, height);
+
+    // 2. source canvas 
+    sourceCanvas.width = width;
+    sourceCanvas.height = height;
+    sourceCtx.fillStyle = '#FFFFFF';
+    sourceCtx.fillRect(0, 0, width, height);
+    sourceCtx.putImageData(imageData, 0, 0);
+    // 3. destination canvas
+    destinationCanvas.width = width;
+    destinationCanvas.height = height;
+    destinationCtx.fillStyle = '#FFFFFF';
+
+    destinationCtx.save();
+    destinationCtx.fillRect(0, 0, width, height);
+    destinationCtx.scale(1, -1);
+    destinationCtx.drawImage(sourceCanvas, 0, -height, width, height);
+    destinationCtx.setTransform(1, 0, 0, 1, 0, 0);
+    destinationCtx.restore();
+    // 4. output imageUrl
+    const url = destinationCanvas.toDataURL('image/png', 1);
+    setThreeUrl(url);
+  };
+
+  const getGrayscaleImage = (pixelsData) => {
+    for(let i = 0, len = pixelsData.data.length; i < len; i += 4){
+      const gray = Math.max(pixelsData.data[i], pixelsData.data[i+1], pixelsData.data[i+2]) * 1.8;
+      pixelsData.data[i] = 255 - gray;
+      pixelsData.data[i+1] = 255 - gray;
+      pixelsData.data[i+2] = 255 - gray;
+    }
+    return pixelsData;
+  };
+
 
   return(
     <div className="body-vr">
       <div className="body-vr-header">
+        <div style={btnStyle} onClick={downloadScreenShot}>截图</div>
         <Palette
           onChange={setColorGui}
           style={style}
@@ -138,11 +245,24 @@ const BodyVr = () => {
         />
       </div>
       <div className="body-vr-content">
+        {
+          !threeUrl &&
+          <div>正在截图...</div>
+        }
+        {
+          threeUrl &&
+          <img 
+          src={threeUrl}
+          alt="gray"
+          style={{position: 'absolute', top: '0px', left: '0px', width: '570px', height: '400px', borderRadius: '20px'}}/>
+        }
         <Canvas
+          className="three-element"
           orthographic={true}
+          gl={{ preserveDrawingBuffer: true }} 
           camera={{ near: 0.1, far: 1e+4 }}
         >
-        <Scene colorMap={colorGui}/>
+        <Scene colorMap={colorGui} colorMap1={colorMap1}/>
         </Canvas>
       </div>
     </div>

@@ -150,18 +150,18 @@ const checkIntersection = () => {
   }
 };
 
-const LineGeometry = () => {
-  const ref = useUpdate((geometry) => {
-    geometry.setFromPoints([new THREE.Vector3(), new THREE.Vector3() ]);
-  });
-  return (
-    <line>
-      <bufferGeometry attach="geometry" ref={ref}>
-        <lineBasicMaterial color="0xffffff" linewidth={1} linewidth="round"/>
-      </bufferGeometry>
-    </line>
-  );
-};
+// const LineGeometry = () => {
+//   const ref = useUpdate((geometry) => {
+//     geometry.setFromPoints([new THREE.Vector3(), new THREE.Vector3() ]);
+//   });
+//   return (
+//     <line>
+//       <bufferGeometry attach="geometry" ref={ref}>
+//         <lineBasicMaterial color="0xffffff" linewidth={1} linewidth="round"/>
+//       </bufferGeometry>
+//     </line>
+//   );
+// };
 
   useEffect(() => {
     const gltf = new GLTFLoader().load(
